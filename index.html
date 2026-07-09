@@ -656,6 +656,66 @@ backdrop-filter: blur(4px);
   color: #fff; transform: scale(1.03);
 }
 
+/* ── HERO CTA ─────────────────────────────────────────────── */
+.hero-cta-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.5rem; }
+.hero-cta-row .btn-gold,
+.hero-cta-row .btn-outline { padding: 0.9rem 2.1rem; }
+
+/* ── FLOATING ACTION STACK (Call + WhatsApp) ─────────────── */
+#fab-stack {
+  position: fixed;
+  right: 1.6rem; bottom: 1.6rem;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.fab-btn {
+  position: relative;
+  width: 56px; height: 56px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform .3s var(--ease2), box-shadow .3s;
+}
+.fab-btn svg { width: 26px; height: 26px; }
+.fab-btn:hover { transform: scale(1.08); }
+#call-float { background: var(--gold); box-shadow: 0 4px 18px rgba(184,151,58,0.4); }
+#call-float:hover { box-shadow: 0 6px 24px rgba(184,151,58,0.55); }
+#whatsapp-float {
+  background: #25D366;
+  box-shadow: 0 4px 18px rgba(37,211,102,0.4);
+  animation: waPulse 2.6s ease-in-out infinite;
+}
+#whatsapp-float:hover { box-shadow: 0 6px 24px rgba(37,211,102,0.55); }
+.fab-btn .wa-tooltip {
+  position: absolute;
+  right: 68px; top: 50%;
+  transform: translate(8px, -50%);
+  white-space: nowrap;
+  background: #111; color: #fff;
+  font-family: var(--body); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.55rem 0.9rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,.08);
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s, transform .25s;
+}
+.fab-btn:hover .wa-tooltip { opacity: 1; transform: translate(0, -50%); }
+@keyframes waPulse {
+  0%, 100% { box-shadow: 0 4px 18px rgba(37,211,102,0.4), 0 0 0 0 rgba(37,211,102,0.35); }
+  50%      { box-shadow: 0 4px 18px rgba(37,211,102,0.4), 0 0 0 10px rgba(37,211,102,0); }
+}
+@media (max-width: 640px) {
+  #fab-stack { right: 1.1rem; bottom: 1.1rem; gap: 0.8rem; }
+  .fab-btn { width: 50px; height: 50px; }
+  .fab-btn svg { width: 23px; height: 23px; }
+  .fab-btn .wa-tooltip { display: none; }
+}
+
 /* ── GOLD DIVIDER ─────────────────────────────────────────── */
 #gold-divider {
   position: relative; display: flex; justify-content: center;
@@ -729,6 +789,21 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
      PROGRESS BAR
 ═══════════════════════════════════════════════════════════ -->
 <div id="progress-bar"></div>
+
+<div id="fab-stack">
+  <a id="call-float" class="fab-btn" href="tel:+918401829027" aria-label="Call Krish">
+    <span class="wa-tooltip">Call Krish</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  </a>
+  <a id="whatsapp-float" class="fab-btn" href="https://wa.me/918401829027?text=Hi%20Krish%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" aria-label="Chat on WhatsApp">
+    <span class="wa-tooltip">Chat on WhatsApp</span>
+    <svg viewBox="0 0 32 32" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.386.696 4.61 1.897 6.484L4 29l7.68-1.868A11.93 11.93 0 0016 27c6.628 0 12-5.373 12-12S22.629 3 16.001 3zm0 21.818c-1.99 0-3.845-.573-5.41-1.562l-.388-.242-4.554 1.108 1.222-4.44-.253-.406A9.79 9.79 0 016.182 15c0-5.415 4.404-9.818 9.819-9.818 5.414 0 9.818 4.403 9.818 9.818 0 5.414-4.404 9.818-9.818 9.818zm5.386-7.34c-.295-.148-1.746-.862-2.017-.96-.271-.099-.469-.148-.666.148-.197.295-.764.96-.937 1.157-.172.197-.345.222-.64.074-.296-.148-1.248-.46-2.377-1.467-.879-.784-1.472-1.752-1.645-2.048-.172-.296-.018-.456.13-.603.134-.133.296-.345.444-.518.148-.172.197-.296.296-.493.099-.198.05-.37-.025-.518-.074-.148-.666-1.605-.913-2.198-.24-.578-.485-.5-.666-.51-.172-.008-.37-.01-.567-.01-.198 0-.518.074-.79.37-.271.296-1.036 1.012-1.036 2.469 0 1.457 1.06 2.865 1.208 3.062.148.198 2.086 3.185 5.054 4.466.706.305 1.256.487 1.685.623.708.225 1.352.193 1.861.117.568-.085 1.746-.714 1.992-1.403.246-.69.246-1.28.172-1.403-.074-.123-.271-.198-.567-.346z"/>
+    </svg>
+  </a>
+</div>
 
 <!-- ═══════════════════════════════════════════════════════════
      LOADER
@@ -804,6 +879,12 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
         <div class="hero-stat-num" id="hero-stat">0+</div>
         <div class="hero-stat-label">Real Client Projects</div>
       </div>
+    </div>
+
+    <div class="hero-cta-row">
+      <a href="#contact" class="btn-gold">Let's Work Together →</a>
+      <a href="https://wa.me/918401829027?text=Hi%20Krish%2C%20I%20saw%20your%20portfolio%20and%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" class="btn-outline">Chat on WhatsApp</a>
+      <a href="tel:+918401829027" class="btn-outline">Call Now</a>
     </div>
   </div>
 
@@ -1100,7 +1181,9 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
       If you have a vision — I'll help you engineer it.
     </p>
     <div class="btn-row reveal" style="--delay:.66s">
-      <a href="https://github.com/krish2147" target="_blank" class="btn-gold">View GitHub →</a>
+      <a href="https://wa.me/918401829027?text=Hi%20Krish%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" class="btn-gold">Message on WhatsApp →</a>
+      <a href="tel:+918401829027" class="btn-outline">Call Now</a>
+      <a href="https://github.com/krish2147" target="_blank" class="btn-outline">View GitHub</a>
       <a href="https://linkedin.com" target="_blank" class="btn-outline">LinkedIn</a>
     </div>
   </div>
