@@ -413,8 +413,7 @@ nav.solid {
   color: rgba(255,255,255,.52); margin-bottom: 1.25rem;
 }
 
-/* ── WHAT I BUILD ─────────────────────────────────────────── */
-#what-i-build { padding: 8rem 3.5rem; }
+/* ── SHARED SECTION HEADINGS ──────────────────────────────── */
 .section-max { max-width: 76rem; margin: 0 auto; }
 .section-eyebrow {
   font-size: 0.68rem; letter-spacing: 0.38em;
@@ -427,109 +426,383 @@ nav.solid {
   font-weight: 400; line-height: 0.9; color: #fff;
 }
 .section-h2 .ghost { color: rgba(255,255,255,.18); }
-.section-header {
-  display: flex; flex-wrap: wrap;
-  align-items: flex-end; justify-content: space-between;
-  gap: 2rem; margin-bottom: 4rem;
+
+/* ── WHAT I BUILD / SELECTED WORK ─────────────────────────── */
+#what-i-build {
+  --wk-bg: var(--bg);
+  --wk-pad: 3.5rem;
+  --wk-max: 80rem;
+  position: relative;
+  padding: clamp(7rem, 11vw, 10rem) var(--wk-pad) 0;
+  background-color: var(--wk-bg);
+  transition: background-color 1.4s var(--ease2);
 }
-.section-sub {
-  font-size: 0.9rem; line-height: 1.7;
-  color: rgba(255,255,255,.55); max-width: 18rem; text-align: right;
-}
-@media (max-width: 640px) { .section-sub { text-align: left; } }
-.projects-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-}
-@media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
-.project-card {
-  position: relative; overflow: hidden;
-  background: #0c0c0c; border-radius: 2px;
-  border: 1px solid rgba(255,255,255,.06);
-  transition: background .4s, border-color .4s;
-  cursor: pointer;
-}
-.project-card:hover { background: #111; border-color: rgba(184,151,58,.25); }
-.project-img {
-  position: relative; overflow: hidden; height: 220px;
-  
-}
-.project-img::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 40%,
-    rgba(0,0,0,0.85)
-  );
-}
-.project-img img {
-  width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(.65) saturate(.8);
-  transition: filter .7s var(--ease), transform .7s var(--ease);
-}
-.project-card:hover .project-img img {
-  filter: brightness(.9) saturate(1.1);
-  transform: scale(1.07);
-}
-.project-tint {
-  position: absolute; inset: 0; mix-blend-mode: multiply; opacity: .65;
-}
-.project-num {
-  position: absolute; top: 20px; right: 20px;
-  font-size: 0.68rem; letter-spacing: 0.3em;
-  color: rgba(184,151,58,.6);
-}
-.project-body { padding: 1.75rem; }
-.project-role {
-  font-size: 0.68rem; letter-spacing: 0.24em;
-  text-transform: uppercase; color: var(--gold);
-  opacity: 0.75; margin-bottom: 0.5rem;
-}
-.project-title {
-  font-family: var(--display);
-  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
-  font-weight: 400; color: #fff; line-height: 1.02;
-  margin-bottom: 0.75rem;
-}
-.project-desc {
-  font-size: 0.9rem; line-height: 1.7;
-  color: rgba(255,255,255,.52); margin-bottom: 1.5rem;
-}
-.stack-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.stack-pill {
-  font-size: 0.62rem; letter-spacing: 0.14em;
-  text-transform: uppercase; padding: 5px 12px;
-  border: 1px solid rgba(255,255,255,.1);
-  color: rgba(255,255,255,.3); border-radius: 1px;
-}
-.card-bottom-line {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 1.5px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .4s, opacity .4s; opacity: 0;
-}
-.project-card {
-  transition: all 0.4s var(--ease);
-}
-.project-card:first-child {
-  border: 1px solid rgba(184,151,58,0.4);
-  transform: scale(1.02);
+.wk-max { max-width: var(--wk-max); margin: 0 auto; }
+.wk-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2.2vw, 2rem);
 }
 
-.project-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+/* Shared type */
+.wk-label {
+  font-size: 0.64rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: rgba(255,255,255,.4);
 }
-.project-card:hover .card-bottom-line { transform: scaleX(1); opacity: 1; }
-.project-card:hover .project-title {
+.wk-num {
+  font-family: var(--display); font-weight: 400;
+  font-size: 1.15rem; letter-spacing: 0.08em; line-height: 1;
   color: var(--gold);
-  transition: color 0.3s ease;
+  display: flex; align-items: center; gap: 0.9rem;
 }
-.project-card {
-text-decoration: none;
-color: inherit;
-backdrop-filter: blur(4px);
+.wk-num::after {
+  content: ''; width: 2.5rem; height: 1px; background: currentColor; opacity: .45;
+}
+.wk-name {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(3.1rem, 7vw, 6.75rem);
+  line-height: 0.88; letter-spacing: 0.005em; color: #fff;
+  margin: 1.4rem 0 1.6rem;
+}
+.wk-pos {
+  font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+  font-weight: 300; line-height: 1.55;
+  color: rgba(255,255,255,.74); max-width: 27rem;
+}
+.wk-meta {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 2rem; margin-top: 2.5rem; max-width: 27rem;
+}
+.wk-meta dt { margin-bottom: 0.45rem; }
+.wk-meta dd { font-size: 0.88rem; line-height: 1.55; color: rgba(255,255,255,.82); }
+.wk-meta .wk-wide { grid-column: 1 / -1; }
+.wk-meta .wk-tech dd { font-size: 0.8rem; color: rgba(255,255,255,.5); }
+.wk-status { display: inline-flex; align-items: center; gap: 0.55rem; }
+.wk-status::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold);
+}
+
+/* CTA with drawn underline */
+.wk-cta {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  margin-top: 2.5rem; padding: 0.85rem 0;
+  font-size: 0.74rem; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: #fff; text-decoration: none; position: relative;
+}
+.wk-cta::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0.45rem; height: 1px;
+  background: var(--gold); transform-origin: left; transform: scaleX(.3);
+  transition: transform .6s var(--ease);
+}
+.wk-cta .wk-arrow { color: var(--gold); transition: transform .5s var(--ease2); }
+.wk-cta:hover::after, .wk-cta:focus-visible::after { transform: scaleX(1); }
+.wk-cta:hover .wk-arrow, .wk-cta:focus-visible .wk-arrow { transform: translate(3px, -3px); }
+#what-i-build a:focus-visible {
+  outline: 2px solid var(--gold); outline-offset: 6px; border-radius: 2px;
+}
+
+/* ── Intro ── */
+.wk-intro { align-items: end; row-gap: 3rem; padding-bottom: clamp(5rem, 10vw, 9rem); }
+.wk-intro-head { grid-column: 1 / span 8; }
+.wk-intro-head .section-eyebrow { margin-bottom: 2.25rem; }
+.wk-title {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(4.6rem, 13.5vw, 12.5rem);
+  line-height: 0.84; letter-spacing: 0.005em; color: #fff;
+}
+.wk-title .slide-clip, .wk-name .slide-clip, .wk-close-title .slide-clip { display: block; }
+.wk-title .inner, .wk-name .inner, .wk-close-title .inner { display: block; }
+.wk-drift { display: inline-block; color: rgba(255,255,255,.16); will-change: transform; }
+.wk-intro-aside { grid-column: 9 / span 4; padding-bottom: 0.9rem; }
+.wk-lead {
+  font-size: clamp(1.1rem, 1.5vw, 1.35rem); font-weight: 300;
+  line-height: 1.5; color: rgba(255,255,255,.74); max-width: 22rem;
+}
+.wk-lead-sub { margin-top: 1.5rem; font-size: 0.88rem; line-height: 1.7; color: rgba(255,255,255,.45); }
+
+/* ── Frames (screenshots as objects) ── */
+.wk-visual { display: block; position: relative; text-decoration: none; }
+.wk-frame {
+  position: relative; overflow: hidden;
+  background: #0d0f13;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 10px;
+  box-shadow: 0 50px 90px -45px rgba(0,0,0,.9);
+  transition: transform .7s var(--ease2), border-color .5s;
+  will-change: transform;
+}
+.wk-visual:hover .wk-frame { border-color: rgba(184,151,58,.35); }
+.wk-bar {
+  height: 2.1rem; display: flex; align-items: center; gap: 0.4rem;
+  padding: 0 0.9rem; border-bottom: 1px solid rgba(255,255,255,.07);
+  font-size: 0.66rem; color: rgba(255,255,255,.42); letter-spacing: 0.02em;
+}
+.wk-bar i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.14); flex: none; }
+.wk-url { margin-left: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wk-frame--device { border-radius: 26px; padding: 7px; background: #121418; }
+.wk-frame--device .wk-shot { border-radius: 19px; }
+.wk-shot { position: relative; overflow: hidden; aspect-ratio: var(--ar, 16 / 9); background: #15171b; }
+.wk-par { position: absolute; inset: 0; will-change: transform; }
+.wk-shot img {
+  width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, center);
+  transform: scale(calc(var(--zoom, 1) * 1.08));
+  transform-origin: var(--origin, 50% 50%);
+  transition: transform 1.2s var(--ease2), transform-origin 1.2s var(--ease2);
+}
+.wk-visual:hover .wk-shot img { transform: scale(calc(var(--zoom, 1) * 1.12)); }
+
+/* Masked entrance — two directions for rhythm */
+.wk-mask {
+  clip-path: inset(0 0 100% 0 round 10px);
+  transition: clip-path 1.3s var(--ease), transform .7s var(--ease2), border-color .5s;
+}
+.wk-mask[data-reveal="side"] { clip-path: inset(0 100% 0 0 round 10px); }
+.wk-mask.is-in { clip-path: inset(0 0 0 0 round 10px); }
+.wk-mask .wk-shot img { scale: 1.12; transition: transform 1.2s var(--ease2), transform-origin 1.2s var(--ease2), scale 1.6s var(--ease2); }
+.wk-mask.is-in .wk-shot img { scale: 1; }
+
+/* ── Flagship ── */
+.wk-flag { padding-bottom: clamp(7rem, 13vw, 12rem); }
+.wk-flag-head { row-gap: 2rem; align-items: end; margin-bottom: clamp(3rem, 6vw, 5rem); }
+.wk-flag-title { grid-column: 1 / span 8; }
+.wk-flag-title .wk-name { font-size: clamp(3.4rem, 8.4vw, 8.25rem); margin-bottom: 0; }
+.wk-flag-info { grid-column: 9 / span 4; }
+.wk-flag-info .wk-meta { margin-top: 2rem; }
+.wk-flag-visual { grid-column: 1 / -1; }
+.wk-steps { grid-column: 1 / -1; margin-top: clamp(3rem, 6vw, 4.5rem); row-gap: 2.5rem; }
+.wk-step { grid-column: span 4; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.1); }
+.wk-step-num { font-family: var(--display); font-size: 1rem; letter-spacing: .08em; color: var(--gold); }
+.wk-step h4 {
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem); line-height: .95;
+  color: #fff; margin: 0.8rem 0 0.9rem;
+}
+.wk-step p { font-size: 0.93rem; line-height: 1.7; color: rgba(255,255,255,.62); max-width: 22rem; }
+.wk-flag-cta { grid-column: 1 / -1; }
+
+/* ── Featured projects ── */
+.wk-proj { padding-bottom: clamp(7rem, 13vw, 12rem); align-items: center; row-gap: 3.5rem; }
+
+
+/* 03 — wide browser bleeding off the left edge, text bottom-right */
+.wk-proj--bleed { align-items: end; }
+.wk-proj--bleed:has(.wk-panel) { align-items: center; }
+.wk-proj--bleed .wk-panel { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
+.wk-proj--bleed .wk-visual {
+  grid-column: 1 / span 8;
+  margin-left: calc(-1 * var(--wk-pad) - max(0px, (100vw - var(--wk-max) - 2 * var(--wk-pad)) / 2));
+}
+.wk-proj--bleed .wk-frame { border-radius: 0 10px 10px 0; border-left: 0; }
+.wk-proj--bleed .wk-text { grid-column: 9 / span 4; }
+.wk-proj--bleed .wk-panel { padding-left: calc(var(--wk-pad) + max(0px, (100vw - var(--wk-max) - 2 * var(--wk-pad)) / 2)); }
+.wk-proj--bleed .wk-name { font-size: clamp(3.1rem, 6vw, 5.75rem); }
+
+/* 04 — centred device between title, story and details */
+.wk-proj--center { align-items: start; }
+.wk-proj--center .wk-head { grid-column: 1 / -1; text-align: center; }
+.wk-proj--center .wk-num { justify-content: center; }
+.wk-proj--center .wk-num::before { content: ''; width: 2.5rem; height: 1px; background: currentColor; opacity: .45; }
+.wk-proj--center .wk-name { font-size: clamp(3.1rem, 9.5vw, 9rem); margin-bottom: 0; }
+.wk-proj--center .wk-left  { grid-column: 1 / span 3; align-self: center; }
+.wk-proj--center .wk-visual { grid-column: 5 / span 4; max-width: 20rem; width: 100%; justify-self: center; }
+.wk-proj--center .wk-right { grid-column: 10 / span 3; align-self: center; }
+.wk-proj--center .wk-meta { grid-template-columns: 1fr; margin-top: 0; }
+.wk-proj--center .wk-cta { margin-top: 2rem; }
+
+/* ── Index of smaller work ── */
+.wk-index { padding-bottom: clamp(6rem, 12vw, 10rem); }
+.wk-index-head { align-items: end; margin-bottom: 2.25rem; row-gap: 1rem; }
+.wk-index-head h3 {
+  grid-column: 1 / span 6;
+  font-family: var(--display); font-weight: 400; font-size: clamp(2.2rem, 3.6vw, 3.2rem); color: #fff; line-height: 1;
+}
+.wk-index-head p { grid-column: 9 / span 4; font-size: 0.88rem; line-height: 1.7; color: rgba(255,255,255,.45); }
+.wk-steps, .wk-list { list-style: none; }
+.wk-list { border-top: 1px solid rgba(255,255,255,.1); }
+.wk-row {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(1rem, 2.2vw, 2rem); align-items: baseline;
+  padding: 1.7rem 0; border-bottom: 1px solid rgba(255,255,255,.1);
+  color: inherit; text-decoration: none; position: relative;
+}
+.wk-row-num  { grid-column: 1 / span 1; font-family: var(--display); color: var(--gold); letter-spacing: .08em; }
+.wk-row-name {
+  grid-column: 2 / span 4; font-family: var(--display); font-weight: 400;
+  font-size: clamp(1.7rem, 2.6vw, 2.4rem); line-height: 1; color: #fff;
+  transition: transform .6s var(--ease2), color .4s;
+}
+.wk-row-type  { grid-column: 6 / span 6; font-size: 0.9rem; line-height: 1.6; color: rgba(255,255,255,.62); max-width: 36rem; }
+.wk-row-go    { grid-column: 12 / span 1; justify-self: end; color: var(--gold); transition: transform .5s var(--ease2); }
+.wk-row-go.is-muted { white-space: nowrap; color: rgba(255,255,255,.3); font-size: 0.72rem; letter-spacing: .12em; text-transform: uppercase; }
+a.wk-row:hover .wk-row-name, a.wk-row:focus-visible .wk-row-name { transform: translateX(0.6rem); color: var(--gold2); }
+a.wk-row:hover .wk-row-go, a.wk-row:focus-visible .wk-row-go { transform: translate(3px, -3px); }
+
+/* ── Bridge into contact ── */
+.wk-next { padding: clamp(5rem, 9vw, 8rem) 0 clamp(7rem, 12vw, 10rem); }
+.wk-next-link {
+  display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 2rem;
+  color: inherit; text-decoration: none;
+}
+.wk-next-word {
+  position: relative; display: block;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(6.5rem, 24vw, 22rem); line-height: .86; letter-spacing: .005em;
+  color: rgba(255,255,255,.14);
+  margin-top: 1.5rem;
+}
+@supports (-webkit-text-stroke: 1px #fff) {
+  .wk-next-word { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.35); }
+}
+.wk-next-word::after {
+  content: attr(data-text); position: absolute; inset: 0;
+  color: var(--gold); -webkit-text-stroke: 0;
+  clip-path: inset(0 100% 0 0); transition: clip-path 1s var(--ease);
+}
+.wk-next-link:hover .wk-next-word::after,
+.wk-next-link:focus-visible .wk-next-word::after { clip-path: inset(0 0 0 0); }
+.wk-next-sub { display: block; margin-top: 2.25rem; font-size: clamp(1rem, 1.3vw, 1.2rem); font-weight: 300; color: rgba(255,255,255,.7); }
+.wk-magnet {
+  width: clamp(5rem, 8vw, 7rem); aspect-ratio: 1; border-radius: 50%;
+  border: 1px solid rgba(184,151,58,.55); color: var(--gold);
+  display: grid; place-items: center; font-size: 1.5rem;
+  margin-bottom: 1rem;
+  transition: background-color .5s, color .5s, transform .5s var(--ease2);
+}
+.wk-next-link:hover .wk-magnet, .wk-next-link:focus-visible .wk-magnet { background: var(--gold); color: #080808; }
+
+
+/* Results copy */
+.wk-kicker { font-size: clamp(1.15rem, 1.6vw, 1.45rem); font-weight: 500; line-height: 1.35; color: #fff; max-width: 28rem; }
+.wk-body { margin-top: 1rem; font-size: 0.95rem; line-height: 1.75; color: rgba(255,255,255,.62); max-width: 28rem; }
+.wk-stat { display: flex; align-items: flex-end; gap: 1.1rem; margin-bottom: 0.5rem; }
+.wk-stat b {
+  font-family: var(--display); font-weight: 400; color: var(--gold);
+  font-size: clamp(4.5rem, 8.5vw, 7.5rem); line-height: .8;
+}
+.wk-stat span { font-size: 0.95rem; line-height: 1.4; color: #fff; max-width: 10rem; padding-bottom: 0.2rem; }
+
+/* Typographic panels for projects without screenshots */
+.wk-panel { padding: clamp(1.75rem, 3.5vw, 3.25rem); background: #0c0f0c; }
+.wk-brand { margin-bottom: clamp(2rem, 4vw, 3rem); }
+.wk-logo {
+  width: clamp(11rem, 18vw, 15rem); height: auto; aspect-ratio: 1;
+  border-radius: 14px; background: #fff;
+  box-shadow: 0 30px 60px -30px rgba(0,0,0,.9);
+}
+.wk-flow {
+  list-style: none; margin-top: 2.25rem;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem;
+  position: relative;
+}
+.wk-flow::before {
+  content: ''; position: absolute; top: 5px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--gold), rgba(184,151,58,.15));
+}
+.wk-flow li { position: relative; display: flex; flex-direction: column; gap: 0.6rem; padding-top: 2rem; }
+.wk-flow-dot {
+  position: absolute; top: 0; left: 0; width: 11px; height: 11px; border-radius: 50%;
+  background: #0c0f0c; border: 1px solid var(--gold);
+}
+.wk-flow li:first-child .wk-flow-dot { background: var(--gold); }
+.wk-flow b { font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 2.3vw, 2.2rem); line-height: 1; color: #fff; }
+.wk-flow span { font-size: 0.84rem; line-height: 1.55; color: rgba(255,255,255,.6); }
+
+.wk-proj--pair .wk-text   { grid-column: 1 / span 5; }
+.wk-proj--pair .wk-visual { grid-column: 7 / span 6; }
+.wk-proj--pair .wk-panel { background: #0c0c14; }
+.wk-proj--pair .wk-name { font-size: clamp(3.1rem, 6vw, 5.75rem); }
+.wk-map { list-style: none; margin-top: 1.5rem; }
+.wk-map li {
+  font-family: var(--display); font-size: clamp(2rem, 3.4vw, 3.1rem); line-height: 1;
+  color: #fff; padding: 0.7rem 0; border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.wk-map li:nth-child(even) { color: rgba(255,255,255,.4); }
+.wk-track {
+  display: flex; align-items: center; gap: 1rem; margin-top: 2.25rem;
+  font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold);
+}
+.wk-track i { flex: 1; height: 1px; background: linear-gradient(90deg, var(--gold), rgba(184,151,58,.2)); }
+
+/* Closing statement */
+.wk-close { align-items: end; row-gap: 2.5rem; padding-top: clamp(6rem, 11vw, 9rem); }
+.wk-close-title {
+  grid-column: 1 / span 7;
+  font-family: var(--display); font-weight: 400; color: #fff;
+  font-size: clamp(3rem, 6.5vw, 6rem); line-height: .9;
+}
+.wk-dim { color: rgba(255,255,255,.3); }
+.wk-close-body { grid-column: 9 / span 4; }
+.wk-proof { list-style: none; }
+.wk-proof li {
+  font-size: 1rem; line-height: 1.45; color: #fff;
+  padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.wk-proof li:first-child { border-top: 1px solid rgba(255,255,255,.1); }
+.wk-close-body .wk-body { margin-top: 1.5rem; }
+
+/* Contextual cursor (desktop only; created by JS) */
+.wk-cursor {
+  position: fixed; top: 0; left: 0; z-index: 999998; pointer-events: none;
+  padding: 0.8rem 1.15rem; border-radius: 999px;
+  background: var(--gold); color: #080808;
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+  white-space: nowrap; opacity: 0; scale: .5;
+  transition: opacity .3s, scale .45s var(--ease2);
+}
+body.wk-cur .wk-cursor { opacity: 1; scale: 1; }
+body.wk-cur #cur-dot, body.wk-cur #cur-ring { opacity: 0 !important; }
+@media (hover: hover) and (pointer: fine) { [data-cursor] { cursor: none; } }
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .wk-proj--center .wk-left  { grid-column: 1 / span 4; }
+  .wk-proj--center .wk-visual { grid-column: 5 / span 4; }
+  .wk-proj--center .wk-right { grid-column: 9 / span 4; }
+}
+@media (max-width: 900px) {
+  .wk-grid > *, .wk-grid > .wk-visual { grid-column: 1 / -1 !important; }
+  .wk-steps { row-gap: 2rem; }
+  .wk-flow { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
+  .wk-flow::before { display: none; }
+  .wk-intro-aside { padding-bottom: 0; }
+  .wk-proj--bleed .wk-visual { margin-left: calc(-1 * var(--wk-pad)); margin-right: 0; }
+  .wk-proj--bleed .wk-text { order: 2; }
+  .wk-proj--center .wk-head { text-align: left; }
+  .wk-proj--center .wk-num { justify-content: flex-start; }
+  .wk-proj--center .wk-num::before { display: none; }
+  .wk-proj--center .wk-visual { max-width: 19rem; justify-self: start; }
+  .wk-proj--center .wk-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wk-row { grid-template-columns: 2.5rem 1fr auto; row-gap: 0.5rem; }
+  .wk-row-num { grid-column: 1; }
+  .wk-row-name { grid-column: 2; }
+  .wk-row-go { grid-column: 3; grid-row: 1; }
+  .wk-row-type { grid-column: 2 / span 2; }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .wk-proj--center .wk-left  { grid-column: 1 / span 6 !important; }
+  .wk-proj--center .wk-right { grid-column: 1 / span 6 !important; }
+  .wk-proj--center .wk-visual { grid-column: 8 / span 5 !important; grid-row: 2 / span 2; justify-self: end; }
+  .wk-proj--center .wk-meta { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  #what-i-build { --wk-pad: 1.5rem; }
+  .wk-flow { grid-template-columns: 1fr; }
+  .wk-meta { grid-template-columns: 1fr 1fr; gap: 1.25rem 1.25rem; }
+  .wk-next-link { grid-template-columns: 1fr; }
+  .wk-magnet { width: 4rem; margin-bottom: 0; }
+}
+
+/* ── Reduced motion: everything is visible and still ── */
+@media (prefers-reduced-motion: reduce) {
+  #what-i-build, #what-i-build * { transition-duration: 0.01ms !important; }
+  #what-i-build .reveal { opacity: 1; transform: none; }
+  #what-i-build .slide-clip .inner { transform: none; }
+  .wk-mask, .wk-mask[data-reveal="side"] { clip-path: none; }
+  .wk-mask .wk-shot img { scale: 1; }
+  .wk-shot img, .wk-visual:hover .wk-shot img { transform: none; }
+  .wk-par, .wk-drift, .wk-frame { transform: none !important; }
 }
 
 /* ── ARSENAL ──────────────────────────────────────────────── */
@@ -929,176 +1202,251 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
 <!-- ═══════════════════════════════════════════════════════════
      WHAT I BUILD
 ═══════════════════════════════════════════════════════════ -->
-<section id="what-i-build">
-  <div class="section-max">
-    <div class="section-header">
-      <div>
-        <p class="section-eyebrow reveal">01 — Selected Work</p>
-        <div class="slide-clip"><div class="inner section-h2">What I<br><span class="ghost">Build.</span></div></div>
+<section id="what-i-build" aria-labelledby="wk-heading">
+  <div class="wk-max">
+
+    <!-- Intro -->
+    <header class="wk-grid wk-intro" data-tone="#080808">
+      <div class="wk-intro-head">
+        <p class="section-eyebrow reveal">01 — What I Build</p>
+        <h2 class="wk-title" id="wk-heading">
+          <span class="slide-clip"><span class="inner">Selected</span></span>
+          <span class="slide-clip" style="--d:.12s"><span class="inner"><span class="wk-drift">Work.</span></span></span>
+        </h2>
       </div>
-      <p class="section-sub reveal" style="--delay:.25s">Real clients. Real deadlines.<br>Real products shipped.</p>
-    </div>
+      <div class="wk-intro-aside reveal" style="--delay:.2s">
+        <p class="wk-lead">Results and impact from websites, systems and platforms built for real clients and real users.</p>
+        <p class="wk-lead-sub">Four projects in focus below, and five more in the index after them.</p>
+      </div>
+    </header>
 
-    <div class="projects-grid">
-      <a  href=" https://krish2147.github.io/Baroda-swimming-front/"class="project-card reveal" style="--delay:.0s">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1519315901367-f34ff9154487?w=900&q=80&auto=format&fit=crop" alt="Baroda Swimfront" loading="lazy"/>
-          <div class="project-tint" style="background:#0a2030"></div>
-          <div class="project-num">01</div>
+    <!-- 01 · Championship -->
+    <article class="wk-flag" data-tone="#060a10" aria-labelledby="wk-p1">
+      <div class="wk-grid wk-flag-head">
+        <div class="wk-flag-title">
+          <p class="wk-num reveal">01</p>
+          <h3 class="wk-name" id="wk-p1">
+            <span class="slide-clip"><span class="inner">Baroda Swimming</span></span>
+            <span class="slide-clip" style="--d:.1s"><span class="inner">Championship 2026</span></span>
+          </h3>
         </div>
-        <div class="project-body">
-          <p class="project-role">Club Management System</p>
-          <h3 class="project-title">Baroda Swimfront</h3>
-          <p class="project-desc">Membership, payments &amp; attendance — engineered for a real client from the ground up.</p>
-          <div class="stack-pills">
-            <span class="stack-pill">React</span><span class="stack-pill">Flask</span><span class="stack-pill">PostgreSQL</span><span class="stack-pill">Razorpay</span>
+        <div class="wk-flag-info reveal" style="--delay:.15s">
+          <p class="wk-stat"><b>400+</b><span>swimmers registered through the platform</span></p>
+          <p class="wk-body">Built and launched the digital registration system that replaced a more manual process with a faster, structured online experience.</p>
+          <dl class="wk-meta">
+            <div><dt class="wk-label">Client</dt><dd>Baroda Swim Front</dd></div>
+            <div><dt class="wk-label">Year</dt><dd>2026</dd></div>
+            <div class="wk-wide wk-tech"><dt class="wk-label">Built with</dt><dd>React, Google Apps Script, Google Sheets, Vercel</dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="wk-grid">
+        <div class="wk-flag-visual">
+          <a class="wk-visual wk-tilt" href="https://baroda-swimming-championship-2026.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="Visit site ↗">
+            <div class="wk-frame wk-mask">
+              <div class="wk-bar"><i></i><i></i><i></i><span class="wk-url">baroda-swimming-championship-2026.vercel.app</span></div>
+              <div class="wk-shot" style="--ar:1261/605">
+                <div class="wk-par"><img src="reg.jpeg" width="1261" height="605" loading="lazy" decoding="async" alt=""></div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <ol class="wk-grid wk-steps">
+          <li class="wk-step reveal">
+            <span class="wk-step-num">01</span>
+            <h4>Register</h4>
+            <p>Swimmers enrol in their events online through a secure registration form.</p>
+          </li>
+          <li class="wk-step reveal" style="--delay:.1s">
+            <span class="wk-step-num">02</span>
+            <h4>Track</h4>
+            <p>Entries and payment status flow into Google Sheets, so organisers can follow everything in one place.</p>
+          </li>
+          <li class="wk-step reveal" style="--delay:.2s">
+            <span class="wk-step-num">03</span>
+            <h4>Deliver</h4>
+            <p>Every participant gets a digital pass, and certificates are distributed automatically.</p>
+          </li>
+        </ol>
+
+        <div class="wk-flag-cta">
+          <a class="wk-cta" href="https://baroda-swimming-championship-2026.vercel.app/" target="_blank" rel="noopener">Visit the live site <span class="wk-arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 02 · KisanSetu -->
+    <article class="wk-grid wk-proj wk-proj--bleed" data-tone="#070b07" aria-labelledby="wk-p2">
+      <a class="wk-visual wk-tilt" href="https://github.com/krish2147/kisan-setu-2.0" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="View code ↗">
+        <div class="wk-frame wk-panel wk-mask" data-reveal="side">
+          <div class="wk-brand">
+            <img class="wk-logo" src="kisansetu-logo.jpg" width="640" height="640" loading="lazy" decoding="async" alt="">
           </div>
+          <p class="wk-label">How a call works</p>
+          <ol class="wk-flow">
+            <li><span class="wk-flow-dot"></span><b>Call</b><span>The farmer makes a normal phone call.</span></li>
+            <li><span class="wk-flow-dot"></span><b>Speak</b><span>They say what they need in their own language.</span></li>
+            <li><span class="wk-flow-dot"></span><b>Match</b><span>The platform checks mandi prices and finds matching buyers or sellers.</span></li>
+            <li><span class="wk-flow-dot"></span><b>Connect</b><span>The farmer is connected with a buyer.</span></li>
+          </ol>
         </div>
-        <div class="card-bottom-line"></div>
       </a>
-
-      <a href="https://turned-18.onrender.com/" class="project-card reveal" style="--delay:.1s">
-  <div class="project-img">
-    <img src="turn.jpeg" alt="Turned 18">
-    <div class="project-tint" style="background:#2563eb"></div>
-    <div class="project-num">02</div>
-  </div>
-
-  <div class="project-body">
-    <p class="project-role">Government Services Platform</p>
-    <h3 class="project-title">Turned 18</h3>
-    <p class="project-desc">
-      Multilingual web platform helping Indian citizens discover government
-      services available after turning 18. Includes language selection,
-      eligibility guidance, responsive UI, and future AI assistant integration.
-    </p>
-
-    <div class="stack-pills">
-      <span class="stack-pill">React</span>
-      <span class="stack-pill">Node.js</span>
-      <span class="stack-pill">Express</span>
-      <span class="stack-pill">HTML/CSS</span>
-    </div>
-  </div>
-
-  <div class="card-bottom-line"></div>
-</a>
-
-<a href="https://khastbhanjan-chiropractic.vercel.app/" class="project-card reveal" style="--delay:.6s">
-  <div class="project-img">
-    <img src="clinic.jpeg" alt="Kashtbhanjan Chiropractic">
-    <div class="project-tint" style="background:#14532d"></div>
-    <div class="project-num">03</div>
-  </div>
-
-  <div class="project-body">
-    <p class="project-role">Healthcare Website</p>
-    <h3 class="project-title">Kashtbhanjan Chiropractic</h3>
-    <p class="project-desc">
-      Professional chiropractic clinic website designed to build patient trust,
-      showcase treatments and services, simplify appointment booking, and
-      deliver a modern healthcare experience across all devices.
-    </p>
-
-    <div class="stack-pills">
-      <span class="stack-pill">React</span>
-      <span class="stack-pill">Tailwind CSS</span>
-      <span class="stack-pill">Node.js</span>
-      <span class="stack-pill">Responsive UI</span>
-    </div>
-  </div>
-
-  <div class="card-bottom-line"></div>
-</a>
-
-      <a href="https://sanjay-kumar-swim.vercel.app/"class="project-card reveal" style="--delay:.2s">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1530549387789-4c1017266635?w=900&q=80&auto=format&fit=crop" alt="Coach Portfolio" loading="lazy"/>
-          <div class="project-tint" style="background:#081828"></div>
-          <div class="project-num">04</div>
+      <div class="wk-text">
+        <p class="wk-num reveal">02</p>
+        <h3 class="wk-name" id="wk-p2"><span class="slide-clip"><span class="inner">KisanSetu</span></span></h3>
+        <div class="reveal" style="--delay:.15s">
+          <p class="wk-kicker">From hackathon prototype to a real opportunity.</p>
+          <p class="wk-body">A multilingual voice-call platform that lets farmers check mandi prices, buy or sell produce, discover matches and connect with buyers through a normal phone call. After Dr. Buddha Chandrasekhar saw the working prototype during a college visit, it led to an internship offer in Delhi.</p>
+          <dl class="wk-meta">
+            <div><dt class="wk-label">Event</dt><dd>Smart India Hackathon 2026</dd></div>
+            <div><dt class="wk-label">Status</dt><dd>Working prototype</dd></div>
+          </dl>
+          <a class="wk-cta" href="https://github.com/krish2147/kisan-setu-2.0" target="_blank" rel="noopener">View the code <span class="wk-arrow" aria-hidden="true">↗</span></a>
         </div>
-        <div class="project-body">
-          <p class="project-role">Personal Brand Site</p>
-          <h3 class="project-title">Coach Portfolio</h3>
-          <p class="project-desc">Aquatic motion, cinematic photography. Built to stop the scroll.</p>
-          <div class="stack-pills">
-            <span class="stack-pill">Vanilla JS</span><span class="stack-pill">CSS Animations</span>
+      </div>
+    </article>
+
+    <!-- 03 · Aark -->
+    <article class="wk-grid wk-proj wk-proj--pair" data-tone="#08080f" aria-labelledby="wk-p3">
+      <div class="wk-text">
+        <p class="wk-num reveal">03</p>
+        <h3 class="wk-name" id="wk-p3">
+          <span class="slide-clip"><span class="inner">Aark</span></span>
+          <span class="slide-clip" style="--d:.08s"><span class="inner">International</span></span>
+          <span class="slide-clip" style="--d:.16s"><span class="inner">School</span></span>
+        </h3>
+        <div class="reveal" style="--delay:.15s">
+          <p class="wk-kicker">Reimagining the school's digital experience around admissions.</p>
+          <p class="wk-body">A redesigned website that brings admissions information, campus visits, enquiries, interactive learning experiences and the complete Pre-Nursery to Grade 12 journey together in one place.</p>
+          <dl class="wk-meta">
+            <div><dt class="wk-label">Client</dt><dd>Aark International School, Vadodara</dd></div>
+            <div><dt class="wk-label">Status</dt><dd class="wk-status">In progress</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="wk-visual">
+        <div class="wk-frame wk-panel wk-mask">
+          <p class="wk-label">What the new site brings together</p>
+          <ul class="wk-map">
+            <li>Admissions</li>
+            <li>Campus visits</li>
+            <li>Enquiries</li>
+            <li>Learning experiences</li>
+            <li>School information</li>
+          </ul>
+          <div class="wk-track" aria-label="Learning journey from Pre-Nursery to Grade 12">
+            <span>Pre-Nursery</span><i></i><span>Grade 12</span>
           </div>
         </div>
-        <div class="card-bottom-line"></div>
+      </div>
+    </article>
+
+    <!-- 04 · Clinic -->
+    <article class="wk-grid wk-proj wk-proj--center" data-tone="#0c0a07" aria-labelledby="wk-p4">
+      <div class="wk-head">
+        <p class="wk-num reveal">04</p>
+        <h3 class="wk-name" id="wk-p4"><span class="slide-clip"><span class="inner">Kashtbhanjan Chiropractic</span></span></h3>
+      </div>
+      <div class="wk-left reveal" style="--delay:.1s">
+        <p class="wk-kicker">Marketing built around real patient trust.</p>
+        <p class="wk-body">Website and advertising work that helps the clinic explain its services, its doctor's expertise and what patients experience.</p>
+      </div>
+      <a class="wk-visual wk-tilt" href="https://khastbhanjan-chiropractic.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="Visit site ↗">
+        <div class="wk-frame wk-frame--device wk-mask">
+          <div class="wk-shot" style="--ar:353/495;--pos:50% 0%">
+            <div class="wk-par"><img src="clinic.jpeg" width="353" height="495" loading="lazy" decoding="async" alt=""></div>
+          </div>
+        </div>
       </a>
+      <div class="wk-right reveal" style="--delay:.2s">
+        <dl class="wk-meta">
+          <div><dt class="wk-label">Type</dt><dd>Healthcare website and advertising</dd></div>
+          <div class="wk-tech"><dt class="wk-label">Built with</dt><dd>React, Tailwind CSS, Node.js</dd></div>
+        </dl>
+        <a class="wk-cta" href="https://khastbhanjan-chiropractic.vercel.app/" target="_blank" rel="noopener">Visit the live site <span class="wk-arrow" aria-hidden="true">↗</span></a>
+      </div>
+    </article>
 
-      <div class="project-card reveal" style="--delay:.2s">
-  <div class="project-img">
-    <img src="ums.jpeg" alt="Baroda SwimFront UMS">
-    <div class="project-tint" style="background:#0f766e"></div>
-    <div class="project-num">05</div>
-  </div>
-
-  <div class="project-body">
-    <p class="project-role">Management System</p>
-    <h3 class="project-title">Baroda SwimFront UMS(In Progress)</h3>
-    <p class="project-desc">
-      Complete academy management platform featuring member registration,
-      attendance tracking, membership renewal, analytics dashboard,
-      notifications, and role-based admin control.
-    </p>
-
-    <div class="stack-pills">
-      <span class="stack-pill">React</span>
-      <span class="stack-pill">Node.js</span>
-      <span class="stack-pill">MongoDB</span>
-      <span class="stack-pill">JWT</span>
-    </div>
-  </div>
-
-  <div class="card-bottom-line"></div>
-</div>
-
-<a href="https://baroda-swimming-championship-2026.vercel.app/" class="project-card reveal" style="--delay:.3s">
-  <div class="project-img">
-    <img src="reg.jpeg" alt="Swimming Championship">
-    <div class="project-tint" style="background:#0284c7"></div>
-    <div class="project-num">06</div>
-  </div>
-
-  <div class="project-body">
-    <p class="project-role">Event Registration Platform</p>
-    <h3 class="project-title">Baroda Swimming Championship 2026</h3>
-    <p class="project-desc">
-      Online championship registration portal with secure event enrollment,
-      digital participant passes, payment tracking, Google Sheets integration,
-      and automated certificate distribution.
-    </p>
-
-    <div class="stack-pills">
-      <span class="stack-pill">React</span>
-      <span class="stack-pill">Google Apps Script</span>
-      <span class="stack-pill">Google Sheets</span>
-      <span class="stack-pill">Vercel</span>
-    </div>
-  </div>
-
-  <div class="card-bottom-line"></div>
-</a>
-
-      <div class="project-card reveal" style="--delay:.3s">
-        <div class="project-img">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&q=80&auto=format&fit=crop" alt="AI Report" loading="lazy"/>
-          <div class="project-tint" style="background:#100818"></div>
-          <div class="project-num">07</div>
-        </div>
-        <div class="project-body">
-          <p class="project-role">Data Visualisation</p>
-          <h3 class="project-title">AI Capability Report</h3>
-          <p class="project-desc">Two pages. One story. Data transformed into clarity and visual precision.</p>
-          <div class="stack-pills">
-            <span class="stack-pill">Python</span><span class="stack-pill">Matplotlib</span>
+    <!-- Index -->
+    <div class="wk-index" data-tone="#080808">
+      <div class="wk-grid wk-index-head">
+        <h3 class="reveal">Also built</h3>
+        <p class="reveal" style="--delay:.1s">Club systems, membership software and websites.</p>
+      </div>
+      <ol class="wk-list">
+        <li>
+          <a class="wk-row" href="https://krish2147.github.io/Baroda-swimming-front/" target="_blank" rel="noopener">
+            <span class="wk-row-num">05</span>
+            <span class="wk-row-name">Baroda Swim Front</span>
+            <span class="wk-row-type">Registration, payments, renewals, event updates and membership management for a swimming club.</span>
+            <span class="wk-row-go" aria-hidden="true">↗</span>
+          </a>
+        </li>
+        <li>
+          <div class="wk-row">
+            <span class="wk-row-num">06</span>
+            <span class="wk-row-name">SAMS / UMS</span>
+            <span class="wk-row-type">Registration, approval, payment, activation, expiry tracking and renewals in one connected system.</span>
+            <span class="wk-row-go is-muted">In progress</span>
           </div>
-        </div>
-        <div class="card-bottom-line"></div>
+        </li>
+        <li>
+          <a class="wk-row" href="https://turned-18.onrender.com/" target="_blank" rel="noopener">
+            <span class="wk-row-num">07</span>
+            <span class="wk-row-name">Turned 18</span>
+            <span class="wk-row-type">Helps young Indians find the government services they become eligible for at 18.</span>
+            <span class="wk-row-go" aria-hidden="true">↗</span>
+          </a>
+        </li>
+        <li>
+          <a class="wk-row" href="https://sanjay-kumar-swim.vercel.app/" target="_blank" rel="noopener">
+            <span class="wk-row-num">08</span>
+            <span class="wk-row-name">Coach Portfolio</span>
+            <span class="wk-row-type">Personal brand site for a swimming coach.</span>
+            <span class="wk-row-go" aria-hidden="true">↗</span>
+          </a>
+        </li>
+        <li>
+          <div class="wk-row">
+            <span class="wk-row-num">09</span>
+            <span class="wk-row-name">AI Capability Report</span>
+            <span class="wk-row-type">A two-page data visualisation report.</span>
+            <span class="wk-row-go is-muted">Report</span>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- Closing statement -->
+    <div class="wk-grid wk-close" data-tone="#080808">
+      <h3 class="wk-close-title">
+        <span class="slide-clip"><span class="inner">Not just projects.</span></span>
+        <span class="slide-clip" style="--d:.1s"><span class="inner wk-dim">Real-world outcomes.</span></span>
+      </h3>
+      <div class="wk-close-body reveal" style="--delay:.15s">
+        <ul class="wk-proof">
+          <li>400+ swimmer registrations</li>
+          <li>A working multilingual voice platform for farmers</li>
+          <li>Business systems for real clients and real users</li>
+        </ul>
+        <p class="wk-body">I build websites, business systems and marketing for organisations in education, sports, healthcare and more. I design and build products meant to leave the portfolio and work in the real world.</p>
       </div>
     </div>
+
+    <!-- Bridge to contact -->
+    <div class="wk-next" data-tone="#080808">
+      <a class="wk-next-link" href="#contact">
+        <span>
+          <span class="wk-label">Next project</span>
+          <span class="wk-next-word" data-text="Yours." aria-hidden="true">Yours.</span>
+          <span class="wk-next-sub">Tell me what your business needs, and let's talk it through.</span>
+        </span>
+        <span class="wk-magnet" aria-hidden="true">↓</span>
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -1460,6 +1808,119 @@ window.addEventListener('scroll', () => {
       });
     }, {threshold: 0.3});
     divIO.observe(divider);
+  }
+})();
+
+/* ── SELECTED WORK ──────────────────────────────────────── */
+(function(){
+  const section = document.getElementById('what-i-build');
+  if(!section) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine   = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const wide   = window.matchMedia('(min-width: 901px)');
+
+  // Masked image entrances (once)
+  // (observe the unclipped parent: a fully clipped target never reports as visible)
+  const maskIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.querySelector('.wk-mask').classList.add('is-in'); maskIO.unobserve(e.target); }
+    });
+  }, { threshold: 0.2 });
+  section.querySelectorAll('.wk-mask').forEach(el => reduce ? el.classList.add('is-in') : maskIO.observe(el.parentElement));
+
+  // Background tone follows the project in the middle of the viewport
+  const toneIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting) section.style.setProperty('--wk-bg', e.target.dataset.tone);
+    });
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  section.querySelectorAll('[data-tone]').forEach(el => toneIO.observe(el));
+
+
+  if(reduce) return;
+
+  // Scroll: gentle image parallax + drifting heading word
+  const pars  = [...section.querySelectorAll('.wk-par')];
+  const drift = section.querySelector('.wk-drift');
+  const inView = new Set();
+  const parIO = new IntersectionObserver(entries => {
+    entries.forEach(e => e.isIntersecting ? inView.add(e.target) : inView.delete(e.target));
+  });
+  pars.forEach(p => parIO.observe(p.parentElement));
+  if(drift) parIO.observe(drift);
+
+  let ticking = false;
+  function onScroll(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const vh = window.innerHeight;
+      inView.forEach(el => {
+        const b = el.getBoundingClientRect();
+        const p = Math.max(-1, Math.min(1, (b.top + b.height / 2 - vh / 2) / vh));
+        if(el === drift) el.style.transform = `translate3d(${(p * 6).toFixed(2)}vw,0,0)`;
+        else if(wide.matches) el.firstElementChild.style.transform = `translate3d(0,${(p * -3.5).toFixed(2)}%,0)`;
+      });
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if(!fine) return;
+
+  // Contextual cursor on project visuals (reuses the site's cursor setup)
+  const tag = document.createElement('div');
+  tag.className = 'wk-cursor';
+  tag.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(tag);
+  let x = 0, y = 0, lx = 0, ly = 0, active = false, raf = 0;
+  const follow = () => {
+    lx += (x - lx) * 0.18; ly += (y - ly) * 0.18;
+    tag.style.transform = `translate3d(${lx}px,${ly}px,0) translate(-50%,-50%)`;
+    raf = (active || Math.abs(x - lx) + Math.abs(y - ly) > 0.5) ? requestAnimationFrame(follow) : 0;
+  };
+
+  section.querySelectorAll('[data-cursor]').forEach(el => {
+    const frame = el.querySelector('.wk-frame');
+    let tilt = 0;
+    el.addEventListener('pointerenter', e => {
+      x = lx = e.clientX; y = ly = e.clientY;
+      tag.textContent = el.dataset.cursor;
+      active = true;
+      document.body.classList.add('wk-cur');
+      if(!raf) raf = requestAnimationFrame(follow);
+    });
+    el.addEventListener('pointermove', e => {
+      x = e.clientX; y = e.clientY;
+      if(tilt) return;
+      tilt = requestAnimationFrame(() => {
+        const b = el.getBoundingClientRect();
+        const px = (x - b.left) / b.width - 0.5;
+        const py = (y - b.top) / b.height - 0.5;
+        frame.style.transform = `perspective(1600px) rotateX(${(-py * 1.4).toFixed(2)}deg) rotateY(${(px * 2).toFixed(2)}deg)`;
+        tilt = 0;
+      });
+    });
+    el.addEventListener('pointerleave', () => {
+      active = false;
+      document.body.classList.remove('wk-cur');
+      frame.style.transform = '';
+    });
+  });
+
+  // Magnetic arrow in the closing call to action
+  const next = section.querySelector('.wk-next-link');
+  const magnet = next && next.querySelector('.wk-magnet');
+  if(magnet){
+    next.addEventListener('pointermove', e => {
+      const b = magnet.getBoundingClientRect();
+      const dx = e.clientX - (b.left + b.width / 2);
+      const dy = e.clientY - (b.top + b.height / 2);
+      const pull = Math.max(0, 1 - Math.hypot(dx, dy) / 260);
+      magnet.style.transform = `translate(${(dx * 0.25 * pull).toFixed(1)}px,${(dy * 0.25 * pull).toFixed(1)}px)`;
+    });
+    next.addEventListener('pointerleave', () => { magnet.style.transform = ''; });
   }
 })();
 </script>
