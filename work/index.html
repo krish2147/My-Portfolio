@@ -2,15 +2,361 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if(location.pathname==='/work')location.replace('/work/'+location.search+location.hash)</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Work — Krish Prajapati</title>
-<meta name="robots" content="noindex">
-<link rel="canonical" href="/#work">
-<meta http-equiv="refresh" content="0; url=/#work">
-<script>location.replace('/#work');</script>
-<style>body{background:#080808;margin:0}</style>
+<meta name="description" content="Websites, systems and platforms Krish Prajapati has built for real clients and real users in Vadodara.">
+<meta name="theme-color" content="#000000">
+<link rel="manifest" href="/work/manifest.webmanifest">
+<link rel="icon" href="/work/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/work/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Krish Work">
+<meta property="og:title" content="Work — Krish Prajapati">
+<meta property="og:description" content="Websites, systems and platforms built for real clients and real users.">
+<meta property="og:image" content="/reg.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#000; --paper:#F2F1EC; --smoke:#8C8B85; --graphite:#161616; --line:rgba(242,241,236,.12);
+  --gold:#B8973A; --gold-hi:#D2B25A;
+  --tone:#000;
+  --display:'Bebas Neue',Impact,'Arial Narrow',sans-serif;
+  --body:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --pad:clamp(1.25rem,5vw,4.5rem);
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:5rem}
+body{
+  background:var(--tone); color:var(--paper); font:400 1rem/1.6 var(--body);
+  -webkit-font-smoothing:antialiased; transition:background-color .9s ease;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:3px;border-radius:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ── Top bar ───────────────────────────── */
+.bar{
+  position:sticky; top:0; z-index:10; display:flex; align-items:center; gap:.75rem;
+  padding:calc(.9rem + env(safe-area-inset-top)) var(--pad) .9rem;
+  background:linear-gradient(var(--tone) 55%, transparent); transition:background .9s ease;
+}
+.mark{font:400 1.6rem/1 var(--display); letter-spacing:.06em; text-decoration:none; margin-right:auto}
+.mark span{color:var(--gold)}
+.btn{
+  display:inline-flex; align-items:center; gap:.5rem; min-height:44px; padding:0 1.1rem;
+  border-radius:999px; border:1px solid var(--line); background:transparent; color:var(--paper);
+  font:500 .9rem/1 var(--body); text-decoration:none; cursor:pointer; transition:border-color .25s, background .25s, color .25s;
+}
+.btn:hover{border-color:rgba(242,241,236,.4)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn--gold{background:var(--gold); border-color:var(--gold); color:#000; font-weight:700}
+.btn--gold:hover{background:var(--gold-hi); border-color:var(--gold-hi)}
+[hidden]{display:none!important}
+@media (max-width:520px){ .bar .btn .lbl{display:none} .bar .btn{padding:0; width:44px; justify-content:center} }
+
+/* ── Hero index ────────────────────────── */
+.hero{padding:clamp(2rem,7vh,5rem) var(--pad) clamp(3rem,9vh,6rem)}
+.intro{max-width:34rem; color:var(--smoke); font-size:clamp(1rem,1.6vw,1.15rem); margin-bottom:clamp(2rem,5vh,3.5rem)}
+.intro b{color:var(--paper); font-weight:500}
+.index{list-style:none; border-top:1px solid var(--line)}
+.index li{border-bottom:1px solid var(--line)}
+.index a{
+  display:grid; grid-template-columns:1fr auto; align-items:baseline; gap:.25rem 1.5rem;
+  padding:clamp(.55rem,1.4vw,.9rem) 0; text-decoration:none;
+}
+.index .nm{
+  font:400 clamp(2.6rem,9.5vw,8.5rem)/.88 var(--display); letter-spacing:.005em;
+  transition:color .35s var(--ease), transform .5s var(--ease); transform-origin:left;
+}
+.index .what{color:var(--smoke); font-size:.9rem; text-align:right; max-width:16rem; line-height:1.35}
+.index .st{display:inline-flex; align-items:center; gap:.4rem; white-space:nowrap}
+.index .st::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--c,var(--gold))}
+.index a:hover .nm,.index a:focus-visible .nm{color:var(--c,var(--gold)); transform:translateX(.6rem)}
+@media (max-width:640px){
+  .index a{grid-template-columns:1fr}
+  .index .what{text-align:left; max-width:none; font-size:.85rem}
+}
+/* one orchestrated entrance: names rise once */
+@media (prefers-reduced-motion:no-preference){
+  .index li{animation:rise .9s var(--ease) both; animation-delay:calc(var(--i) * 70ms + 120ms)}
+  @keyframes rise{from{opacity:0; transform:translateY(40%)}}
+}
+
+/* ── Project plates ────────────────────── */
+.plate{
+  padding:clamp(4rem,12vh,8rem) var(--pad); border-top:1px solid var(--line);
+  display:grid; grid-template-columns:minmax(0,7fr) minmax(0,5fr); gap:clamp(2rem,5vw,5rem); align-items:center;
+}
+.plate--phone{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.plate h2{font:400 clamp(3rem,7vw,6.25rem)/.9 var(--display); margin-bottom:1.25rem}
+.result{font-size:clamp(1.15rem,2vw,1.45rem); line-height:1.4; font-weight:500; margin-bottom:1rem; max-width:30rem}
+.result strong{color:var(--c); font-weight:700}
+.desc{color:var(--smoke); max-width:32rem; margin-bottom:1.75rem}
+.facts{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem 1.5rem; margin-bottom:2rem; max-width:30rem}
+.facts dt{color:var(--smoke); font-size:.8rem; margin-bottom:.15rem}
+.facts dd{font-size:.95rem; line-height:1.4}
+.facts .wide{grid-column:1/-1}
+.go{
+  display:inline-flex; align-items:center; gap:.6rem; min-height:44px; text-decoration:none;
+  font-weight:700; color:var(--paper); border-bottom:2px solid var(--c); padding-bottom:.15rem;
+}
+.go svg{width:16px; height:16px; transition:transform .3s var(--ease)}
+.go:hover svg{transform:translate(3px,-3px)}
+.pending{display:inline-flex; align-items:center; gap:.5rem; color:var(--smoke); font-size:.95rem}
+.pending::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--c)}
+
+/* frames */
+.shot{position:relative}
+.browser{border-radius:14px; background:var(--graphite); padding:0 6px 6px; box-shadow:0 40px 80px -40px rgba(0,0,0,.9), 0 0 0 1px var(--line)}
+.browser .chrome{display:flex; align-items:center; gap:6px; height:34px; padding:0 10px}
+.browser .chrome i{width:9px; height:9px; border-radius:50%; background:rgba(242,241,236,.18)}
+.browser .chrome span{margin-left:10px; color:var(--smoke); font-size:.75rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.browser img{border-radius:9px; width:100%}
+.phone{
+  width:min(100%,19rem); margin-inline:auto; border-radius:34px; padding:9px; background:var(--graphite);
+  box-shadow:0 50px 90px -40px rgba(0,0,0,.95), 0 0 0 1px var(--line);
+}
+.phone img{border-radius:26px; width:100%; aspect-ratio:var(--ar); object-fit:cover; object-position:top}
+.logo-tile{width:min(100%,22rem); margin-inline:auto; border-radius:28px; background:#fff; padding:clamp(1rem,3vw,1.75rem); box-shadow:0 50px 90px -40px rgba(0,0,0,.95)}
+.plate--phone .shot{order:-1}
+
+@media (max-width:860px){
+  .plate,.plate--phone{grid-template-columns:1fr}
+  .plate .shot,.plate--phone .shot{order:-1}
+}
+
+/* ── More work ─────────────────────────── */
+.more{padding:clamp(4rem,12vh,7rem) var(--pad); border-top:1px solid var(--line)}
+.more h2{font:400 clamp(2.4rem,5vw,4rem)/.95 var(--display); margin-bottom:2rem}
+.rows{list-style:none; border-top:1px solid var(--line)}
+.rows li{border-bottom:1px solid var(--line)}
+.rows a,.rows div{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto; gap:.4rem 2rem; align-items:baseline; padding:1.25rem 0; text-decoration:none}
+.rows .t{font:400 clamp(1.6rem,3vw,2.25rem)/1 var(--display)}
+.rows .d{color:var(--smoke)}
+.rows .k{font-size:.85rem; color:var(--smoke); white-space:nowrap}
+.rows a .k{color:var(--gold)}
+.rows a:hover .t{color:var(--gold)}
+@media (max-width:640px){ .rows a,.rows div{grid-template-columns:1fr auto} .rows .d{grid-column:1/-1; grid-row:2} }
+
+/* ── Contact ───────────────────────────── */
+.contact{padding:clamp(5rem,16vh,10rem) var(--pad) clamp(3rem,8vh,5rem); border-top:1px solid var(--line)}
+.contact h2{font:400 clamp(3.2rem,11vw,10rem)/.86 var(--display); max-width:12ch; margin-bottom:1.5rem}
+.contact p{color:var(--smoke); max-width:30rem; margin-bottom:2rem}
+.actions{display:flex; flex-wrap:wrap; gap:.75rem}
+.actions .btn{min-height:52px; padding:0 1.5rem; font-size:1rem}
+.foot{display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem; margin-top:clamp(4rem,10vh,6rem); color:var(--smoke); font-size:.85rem}
+.foot a{color:var(--paper)}
+
+/* ── Install hint (iPhone) ─────────────── */
+.sheet{
+  position:fixed; inset:auto 0 0 0; z-index:20; padding:1.25rem var(--pad) calc(1.25rem + env(safe-area-inset-bottom));
+  background:#111; border-top:1px solid var(--line); box-shadow:0 -20px 40px rgba(0,0,0,.6);
+  display:flex; gap:1rem; align-items:flex-start; font-size:.95rem;
+}
+.sheet p{flex:1}
+.sheet button{background:none; border:0; color:var(--smoke); font:500 .9rem var(--body); min-height:44px; padding:0 .5rem; cursor:pointer}
+.toast{position:fixed; left:50%; bottom:calc(1.5rem + env(safe-area-inset-bottom)); transform:translate(-50%,1rem); opacity:0; z-index:30;
+  background:var(--paper); color:#000; padding:.7rem 1.1rem; border-radius:999px; font-weight:500; font-size:.9rem; transition:.3s var(--ease); pointer-events:none}
+.toast.on{opacity:1; transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{transition:none!important; animation:none!important} }
+</style>
 </head>
 <body>
-<p style="color:#888;font:14px sans-serif;padding:2rem">Opening work… <a href="/#work" style="color:#b8973a">Tap here</a> if it doesn't open.</p>
+
+<header class="bar">
+  <a class="mark" href="/" aria-label="Krish Prajapati, full portfolio">KRISH<span>.</span></a>
+  <button class="btn" id="install" hidden>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg>
+    <span class="lbl">Install app</span><span class="sr">Install this page as an app</span>
+  </button>
+  <button class="btn" id="share">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v14"/></svg>
+    <span class="lbl">Share</span><span class="sr">Share this page</span>
+  </button>
+  <a class="btn btn--gold" href="https://wa.me/918401829027?text=Hi%20Krish%2C%20I%20saw%20your%20work%20and%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.4 14.1c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.8s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.2.5.1.6 0l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.8-.1 1.5Z"/></svg>
+    <span class="lbl">WhatsApp</span><span class="sr">Message Krish on WhatsApp</span>
+  </a>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="sr">Work by Krish Prajapati</h1>
+    <p class="intro"><b>Krish Prajapati</b> builds websites, business systems and marketing for clients in education, sports, healthcare and more. Tap a project to see it.</p>
+    <ol class="index">
+      <li style="--i:0"><a href="#championship" style="--c:#4C8DFF"><span class="nm">Swimming Championship</span><span class="what"><span class="st">Live</span> 400+ swimmers registered</span></a></li>
+      <li style="--i:1"><a href="#kisansetu" style="--c:#5DBB63"><span class="nm">KisanSetu</span><span class="what"><span class="st">Prototype</span> Voice platform for farmers</span></a></li>
+      <li style="--i:2"><a href="#aark" style="--c:#E06A3B"><span class="nm">Aark International</span><span class="what"><span class="st">In progress</span> School website</span></a></li>
+      <li style="--i:3"><a href="#clinic" style="--c:#C9A46A"><span class="nm">Kashtbhanjan</span><span class="what"><span class="st">Live</span> Clinic website and ads</span></a></li>
+      <li style="--i:4"><a href="#sams" style="--c:#2BB3E0"><span class="nm">SAMS</span><span class="what"><span class="st">In progress</span> Club membership system</span></a></li>
+      <li style="--i:5"><a href="#turned18" style="--c:#2F6BFF"><span class="nm">Turned 18</span><span class="what"><span class="st">Live</span> Civic guidance platform</span></a></li>
+      <li style="--i:6"><a href="#more" style="--c:var(--gold)"><span class="nm">And more</span><span class="what">Club site, coach brand, data report</span></a></li>
+    </ol>
+  </section>
+
+  <article class="plate" id="championship" data-tone="#050a14" style="--c:#4C8DFF" aria-labelledby="t-champ">
+    <div class="shot">
+      <div class="browser">
+        <div class="chrome"><i></i><i></i><i></i><span>baroda-swimming-championship-2026.vercel.app</span></div>
+        <img src="/reg.jpeg" width="1261" height="605" alt="Registration page of the Baroda Swimming Championship 2026 website" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div>
+      <h2 id="t-champ">Baroda Swimming Championship 2026</h2>
+      <p class="result"><strong>400+ swimmers</strong> registered through the platform.</p>
+      <p class="desc">An online registration system that replaced a more manual process. Swimmers enrol in their events, entries and payment status flow into Google Sheets for the organisers, and every participant gets a digital pass and certificate.</p>
+      <dl class="facts">
+        <div><dt>Client</dt><dd>Baroda Swim Front</dd></div>
+        <div><dt>Year</dt><dd>2026</dd></div>
+        <div class="wide"><dt>Built with</dt><dd>React, Google Apps Script, Google Sheets, Vercel</dd></div>
+      </dl>
+      <a class="go" href="https://baroda-swimming-championship-2026.vercel.app/" target="_blank" rel="noopener">Visit the live site <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+    </div>
+  </article>
+
+  <article class="plate plate--phone" id="kisansetu" data-tone="#04100a" style="--c:#5DBB63" aria-labelledby="t-kisan">
+    <div class="shot"><div class="logo-tile"><img src="/kisansetu-logo.jpg" width="640" height="640" alt="KisanSetu logo: a farmer on a phone call with mandi prices beside him" loading="lazy" decoding="async"></div></div>
+    <div>
+      <h2 id="t-kisan">KisanSetu</h2>
+      <p class="result">From a hackathon prototype to <strong>an internship offer</strong> in Delhi.</p>
+      <p class="desc">A multilingual voice-call platform. Farmers make a normal phone call, say what they need in their own language, and the platform checks mandi prices and connects them with matching buyers or sellers. Dr. Buddha Chandrasekhar saw the working prototype during a college visit, which led to the offer.</p>
+      <dl class="facts">
+        <div><dt>Event</dt><dd>Smart India Hackathon 2026</dd></div>
+        <div><dt>Status</dt><dd>Working prototype</dd></div>
+      </dl>
+      <a class="go" href="https://github.com/krish2147/kisan-setu-2.0" target="_blank" rel="noopener">View the code <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+    </div>
+  </article>
+
+  <article class="plate plate--phone" id="aark" data-tone="#0a0d1c" style="--c:#E06A3B" aria-labelledby="t-aark">
+    <div class="shot"><div class="phone" style="--ar:600/1042"><img src="/aark.jpeg" width="600" height="1042" alt="Aark International School website on mobile, with a Book a Campus Visit button" loading="lazy" decoding="async"></div></div>
+    <div>
+      <h2 id="t-aark">Aark International School</h2>
+      <p class="result">A school website built around <strong>admissions</strong>.</p>
+      <p class="desc">A redesigned site that brings admissions information, campus visits, enquiries, learning experiences and the full Pre-Nursery to Grade 12 journey together in one place, so parents can book a visit in a few taps.</p>
+      <dl class="facts">
+        <div><dt>Client</dt><dd>Aark International School, Vadodara</dd></div>
+        <div><dt>Status</dt><dd>In progress</dd></div>
+      </dl>
+      <span class="pending">Launching soon</span>
+    </div>
+  </article>
+
+  <article class="plate plate--phone" id="clinic" data-tone="#110d07" style="--c:#C9A46A" aria-labelledby="t-clinic">
+    <div class="shot"><div class="phone" style="--ar:353/495"><img src="/clinic.jpeg" width="353" height="495" alt="Kashtbhanjan Chiropractic website on mobile" loading="lazy" decoding="async"></div></div>
+    <div>
+      <h2 id="t-clinic">Kashtbhanjan Chiropractic</h2>
+      <p class="result">Marketing built around <strong>real patient trust</strong>.</p>
+      <p class="desc">Website and advertising work that helps the clinic explain its services, its doctor's expertise and what patients experience.</p>
+      <dl class="facts">
+        <div><dt>Type</dt><dd>Healthcare website and advertising</dd></div>
+        <div><dt>Built with</dt><dd>React, Tailwind CSS, Node.js</dd></div>
+      </dl>
+      <a class="go" href="https://khastbhanjan-chiropractic.vercel.app/" target="_blank" rel="noopener">Visit the live site <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+    </div>
+  </article>
+
+  <article class="plate plate--phone" id="sams" data-tone="#04101a" style="--c:#2BB3E0" aria-labelledby="t-sams">
+    <div class="shot"><div class="phone" style="--ar:384/487"><img src="/ums.jpeg" width="384" height="487" alt="SAMS membership portal for Baroda Swim Front on mobile" loading="lazy" decoding="async"></div></div>
+    <div>
+      <h2 id="t-sams">SAMS</h2>
+      <p class="result">Membership for a swimming club in <strong>one connected system</strong>.</p>
+      <p class="desc">Registration, approval, payment, activation, expiry tracking and renewals, all in one place for the club.</p>
+      <dl class="facts">
+        <div><dt>Client</dt><dd>Baroda Swim Front</dd></div>
+        <div><dt>Status</dt><dd>In progress</dd></div>
+      </dl>
+      <span class="pending">Launching soon</span>
+    </div>
+  </article>
+
+  <article class="plate" id="turned18" data-tone="#050914" style="--c:#2F6BFF" aria-labelledby="t-t18">
+    <div class="shot">
+      <div class="browser">
+        <div class="chrome"><i></i><i></i><i></i><span>turned-18.onrender.com</span></div>
+        <img src="/turn.jpeg" width="1226" height="602" alt="Turned 18 home page: step-by-step guidance in your language" loading="lazy" decoding="async">
+      </div>
+    </div>
+    <div>
+      <h2 id="t-t18">Turned 18</h2>
+      <p class="result">Helps young Indians find the <strong>government services</strong> they become eligible for at 18.</p>
+      <p class="desc">Step-by-step guidance in the user's own language.</p>
+      <a class="go" href="https://turned-18.onrender.com/" target="_blank" rel="noopener">Visit the live site <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg></a>
+    </div>
+  </article>
+
+  <section class="more" id="more" data-tone="#000" aria-labelledby="t-more">
+    <h2 id="t-more">Also built</h2>
+    <ul class="rows">
+      <li><a href="https://krish2147.github.io/Baroda-swimming-front/" target="_blank" rel="noopener"><span class="t">Baroda Swim Front</span><span class="d">Registration, payments, renewals, event updates and membership for a swimming club.</span><span class="k">Visit</span></a></li>
+      <li><a href="https://sanjay-kumar-swim.vercel.app/" target="_blank" rel="noopener"><span class="t">Coach portfolio</span><span class="d">Personal brand site for a swimming coach.</span><span class="k">Visit</span></a></li>
+      <li><div><span class="t">AI Capability Report</span><span class="d">A two-page data visualisation report.</span><span class="k">Report</span></div></li>
+    </ul>
+  </section>
+
+  <section class="contact" data-tone="#000" aria-labelledby="t-contact">
+    <h2 id="t-contact">Your project could be next.</h2>
+    <p>Tell me what your business needs, and let's talk it through.</p>
+    <div class="actions">
+      <a class="btn btn--gold" href="https://wa.me/918401829027?text=Hi%20Krish%2C%20I%20saw%20your%20work%20and%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" rel="noopener">Message on WhatsApp</a>
+      <a class="btn" href="tel:+918401829027">Call +91 84018 29027</a>
+    </div>
+    <div class="foot">
+      <span>Krish Prajapati, Vadodara</span>
+      <a href="/">See the full portfolio</a>
+    </div>
+  </section>
+</main>
+
+<div class="sheet" id="ios-hint" role="dialog" aria-label="Install on iPhone" hidden>
+  <p>To install: tap <b>Share</b> in Safari, then <b>Add to Home Screen</b>.</p>
+  <button type="button" id="ios-close">Close</button>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2200); };
+
+  // Page tint follows the project on screen
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) document.documentElement.style.setProperty('--tone', e.target.dataset.tone);
+  }), { rootMargin: '-45% 0px -45% 0px' });
+  document.querySelectorAll('[data-tone]').forEach(el => io.observe(el));
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) document.documentElement.style.setProperty('--tone', '#000'); },
+    { rootMargin: '-45% 0px -45% 0px' }).observe(document.querySelector('.hero'));
+
+  // Share
+  const url = location.origin + '/work/';
+  document.getElementById('share').addEventListener('click', async () => {
+    if (navigator.share) { try { await navigator.share({ title: 'Work — Krish Prajapati', text: 'Websites and systems I have built for real clients:', url }); } catch (_) {} return; }
+    try { await navigator.clipboard.writeText(url); toast('Link copied'); } catch (_) { prompt('Copy this link', url); }
+  });
+
+  // Install
+  const btn = document.getElementById('install');
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  let deferred = null;
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; btn.hidden = false; });
+  addEventListener('appinstalled', () => { btn.hidden = true; toast('Installed'); });
+  if (ios && !standalone) btn.hidden = false;
+  btn.addEventListener('click', async () => {
+    if (deferred) { deferred.prompt(); await deferred.userChoice; deferred = null; btn.hidden = true; }
+    else if (ios) document.getElementById('ios-hint').hidden = false;
+  });
+  document.getElementById('ios-close').addEventListener('click', () => document.getElementById('ios-hint').hidden = true);
+
+  if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('/work/sw.js', { scope: '/work/' }).catch(() => {}));
+})();
+</script>
 </body>
 </html>
