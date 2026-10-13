@@ -718,7 +718,7 @@ a.wk-row:hover .wk-row-go, a.wk-row:focus-visible .wk-row-go { transform: transl
 .wk-flow span { font-size: 0.84rem; line-height: 1.55; color: rgba(255,255,255,.6); }
 
 .wk-proj--pair .wk-text   { grid-column: 1 / span 5; }
-.wk-proj--pair .wk-visual { grid-column: 7 / span 6; }
+.wk-proj--pair .wk-visual { grid-column: 7 / span 6; max-width: 20rem; width: 100%; justify-self: center; }
 .wk-proj--pair .wk-panel { background: #0c0c14; }
 .wk-proj--pair .wk-name { font-size: clamp(3.1rem, 6vw, 5.75rem); }
 .wk-map { list-style: none; margin-top: 1.5rem; }
@@ -781,6 +781,7 @@ body.wk-cur #cur-dot, body.wk-cur #cur-ring { opacity: 0 !important; }
   .wk-proj--center .wk-num { justify-content: flex-start; }
   .wk-proj--center .wk-num::before { display: none; }
   .wk-proj--center .wk-visual { max-width: 19rem; justify-self: start; }
+  .wk-proj--pair .wk-visual { max-width: 19rem; justify-self: start; }
   .wk-proj--center .wk-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .wk-row { grid-template-columns: 2.5rem 1fr auto; row-gap: 0.5rem; }
   .wk-row-num { grid-column: 1; }
@@ -1337,18 +1338,10 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
           </dl>
         </div>
       </div>
-      <div class="wk-visual">
-        <div class="wk-frame wk-panel wk-mask">
-          <p class="wk-label">What the new site brings together</p>
-          <ul class="wk-map">
-            <li>Admissions</li>
-            <li>Campus visits</li>
-            <li>Enquiries</li>
-            <li>Learning experiences</li>
-            <li>School information</li>
-          </ul>
-          <div class="wk-track" aria-label="Learning journey from Pre-Nursery to Grade 12">
-            <span>Pre-Nursery</span><i></i><span>Grade 12</span>
+      <div class="wk-visual wk-tilt">
+        <div class="wk-frame wk-frame--device wk-mask">
+          <div class="wk-shot" style="--ar:600/1042;--pos:50% 0%">
+            <div class="wk-par"><img src="aark.jpeg" width="600" height="1042" loading="lazy" decoding="async" alt="Aark International School website home screen on mobile: Every child arrives with a story, with Book a Campus Visit button"></div>
           </div>
         </div>
       </div>
