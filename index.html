@@ -192,6 +192,14 @@ nav.solid {
   user-select: none;
 }
 .nav-logo .dot { color: var(--gold); }
+.nav-actions { display: flex; align-items: center; gap: 1.6rem; }
+.nav-work {
+  font-family: var(--body); font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.3em; text-transform: uppercase; text-decoration: none;
+  color: rgba(255,255,255,.7); padding: 0.6rem 0; transition: color .3s;
+}
+.nav-work:hover, .nav-work:focus-visible { color: var(--gold); }
+body.menu-open .nav-work { opacity: 0; pointer-events: none; }
 #hamburger {
   display: flex; flex-direction: column; justify-content: center;
   gap: 5px; width: 32px; height: 32px;
@@ -1113,9 +1121,12 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
 ═══════════════════════════════════════════════════════════ -->
 <nav id="nav">
   <div class="nav-logo">KRISH<span class="dot">.</span></div>
-  <button id="hamburger" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-actions">
+    <a class="nav-work" href="#what-i-build">Work</a>
+    <button id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- Mobile menu -->
@@ -1568,6 +1579,22 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
   const pct      = document.getElementById('loader-pct');
   const nameEl   = document.getElementById('loader-name');
   const letters  = 'KRISH.'.split('');
+
+  // Direct work link (/work or #work): skip the intro and land on the projects
+  if(/^#(work|what-i-build)$/.test(location.hash)){
+    loader.style.display = 'none';
+    const jump = () => {
+      const work = document.getElementById('what-i-build');
+      if(work) window.scrollTo({top: work.getBoundingClientRect().top + scrollY, behavior: 'instant'});
+    };
+    let moved = false;
+    ['wheel','touchstart','keydown'].forEach(e => addEventListener(e, () => moved = true, {once: true, passive: true}));
+    jump();
+    window.addEventListener('load', () => { if(!moved) jump(); }, {once: true});
+    startStatCounter();
+    document.querySelectorAll('#hero .slide-clip').forEach(el => el.classList.add('visible'));
+    return;
+  }
 
   // Build staggered letters
   letters.forEach((l, i) => {
