@@ -1,0 +1,67 @@
+name: Update project screenshots
+
+# Keeps the screenshots in shots/ in step with the live sites listed in
+# screenshots.json. Each run checks whether any site has been redeployed and,
+# only if so, takes fresh screenshots and commits them (which redeploys the
+# portfolio).
+on:
+  schedule:
+    - cron: '23 */3 * * *'   # every 3 hours
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Re-capture every site even if it hasn't changed
+        type: boolean
+        default: false
+  repository_dispatch:
+    types: [site-updated]    # lets another repo's deploy trigger a refresh right away
+  push:
+    branches: [main]
+    paths: [screenshots.json, scripts/update-screenshots.mjs]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-screenshots
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FORCE: ${{ inputs.force == true }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check which sites changed
+        id: check
+        run: node scripts/update-screenshots.mjs --check
+
+      - name: Install Playwright
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium
+
+      - name: Capture screenshots
+        if: steps.check.outputs.changed == 'true'
+        run: node scripts/update-screenshots.mjs
+
+      - name: Commit updated screenshots
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git add shots
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898341+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update project screenshots from the live sites"
+          git push

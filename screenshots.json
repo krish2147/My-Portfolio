@@ -1,0 +1,15 @@
+{
+  "_readme": "Live sites the portfolio shows screenshots of. A GitHub Action re-captures each one when the site changes (see .github/workflows/update-screenshots.yml). To add a project: add an entry here, push, and use shots/<file> as the image src in index.html.",
+  "sites": [
+    {
+      "file": "coach.jpg",
+      "url": "https://sanjay-kumar-swim.vercel.app/",
+      "device": "desktop"
+    },
+    {
+      "file": "swim-front.jpg",
+      "url": "https://krish2147.github.io/Baroda-swimming-front/",
+      "device": "desktop"
+    }
+  ]
+}

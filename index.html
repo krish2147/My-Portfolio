@@ -647,6 +647,26 @@ body.menu-open .nav-work { opacity: 0; pointer-events: none; }
 a.wk-row:hover .wk-row-name, a.wk-row:focus-visible .wk-row-name { transform: translateX(0.6rem); color: var(--gold2); }
 a.wk-row:hover .wk-row-go, a.wk-row:focus-visible .wk-row-go { transform: translate(3px, -3px); }
 
+/* Screenshot previews: revealed on hover with a mouse, shown inline on touch and small screens */
+.wk-row-thumb {
+  display: block; overflow: hidden; aspect-ratio: 16 / 10;
+  border: 1px solid rgba(255,255,255,.1); border-radius: 8px; background: #15171b;
+}
+.wk-row-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+@media (hover: hover) and (pointer: fine) and (min-width: 901px) {
+  .wk-row-thumb {
+    position: absolute; z-index: 2; top: 50%; right: 8%; width: clamp(15rem, 22vw, 20rem);
+    pointer-events: none; opacity: 0;
+    box-shadow: 0 30px 60px -25px rgba(0,0,0,.9);
+    transform: translateY(-50%) scale(.92) rotate(-1.5deg);
+    transition: opacity .4s var(--ease2), transform .6s var(--ease2);
+  }
+  a.wk-row:hover .wk-row-thumb, a.wk-row:focus-visible .wk-row-thumb { opacity: 1; transform: translateY(-50%) scale(1) rotate(-1.5deg); }
+}
+@media (hover: none) and (min-width: 901px), (pointer: coarse) and (min-width: 901px) {
+  .wk-row-thumb { grid-column: 2 / span 4; grid-row: 2; margin-top: 1.25rem; }
+}
+
 /* ── Bridge into contact ── */
 .wk-next { padding: clamp(5rem, 9vw, 8rem) 0 clamp(7rem, 12vw, 10rem); }
 .wk-next-link {
@@ -788,6 +808,7 @@ body.wk-cur #cur-dot, body.wk-cur #cur-ring { opacity: 0 !important; }
   .wk-row-name { grid-column: 2; }
   .wk-row-go { grid-column: 3; grid-row: 1; }
   .wk-row-type { grid-column: 2 / span 2; }
+  .wk-row-thumb { grid-column: 2 / span 2; grid-row: 3; max-width: 22rem; margin-top: 0.75rem; }
 }
 @media (min-width: 641px) and (max-width: 900px) {
   .wk-proj--center .wk-left  { grid-column: 1 / span 6 !important; }
@@ -1385,6 +1406,7 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
             <span class="wk-row-num">05</span>
             <span class="wk-row-name">Baroda Swim Front</span>
             <span class="wk-row-type">Registration, payments, renewals, event updates and membership management for a swimming club.</span>
+            <span class="wk-row-thumb" aria-hidden="true"><img src="shots/swim-front.jpg" width="1440" height="900" loading="lazy" decoding="async" alt=""></span>
             <span class="wk-row-go" aria-hidden="true">↗</span>
           </a>
         </li>
@@ -1401,6 +1423,7 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
             <span class="wk-row-num">07</span>
             <span class="wk-row-name">Turned 18</span>
             <span class="wk-row-type">Helps young Indians find the government services they become eligible for at 18.</span>
+            <span class="wk-row-thumb" aria-hidden="true"><img src="turn.jpeg" width="1226" height="602" loading="lazy" decoding="async" alt=""></span>
             <span class="wk-row-go" aria-hidden="true">↗</span>
           </a>
         </li>
@@ -1409,6 +1432,7 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
             <span class="wk-row-num">08</span>
             <span class="wk-row-name">Coach Portfolio</span>
             <span class="wk-row-type">Personal brand site for a swimming coach.</span>
+            <span class="wk-row-thumb" aria-hidden="true"><img src="shots/coach.jpg" width="1440" height="900" loading="lazy" decoding="async" alt=""></span>
             <span class="wk-row-go" aria-hidden="true">↗</span>
           </a>
         </li>
