@@ -529,26 +529,19 @@ body.menu-open .nav-work { opacity: 0; pointer-events: none; }
   line-height: 1.5; color: rgba(255,255,255,.74); max-width: 22rem;
 }
 
-/* ── Floating project cards behind the intro ── */
-.wk-intro { position: relative; isolation: isolate; }
-.wk-intro > :not(.wk-float) { position: relative; z-index: 1; }
+/* ── Floating project cards behind Contact ── */
 .wk-float {
-  position: absolute; z-index: 0; pointer-events: none; overflow: hidden;
-  top: calc(-1 * clamp(7rem, 11vw, 10rem)); bottom: 0;
-  left: calc(-1 * var(--wk-pad) - max(0px, (100vw - var(--wk-max) - 2 * var(--wk-pad)) / 2));
-  width: 100vw;
-  perspective: 900px; perspective-origin: 50% 46%;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
-          mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  perspective: 900px; perspective-origin: 50% 50%; opacity: .55;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
 }
 .wk-float::after {
-  /* keeps the heading and lead readable over the cards */
+  /* keeps the heading and buttons readable over the cards */
   content: ""; position: absolute; inset: 0;
-  background:
-    radial-gradient(45% 50% at 30% 62%, rgba(8,8,8,.7), transparent 75%),
-    radial-gradient(28% 30% at 80% 66%, rgba(8,8,8,.85), transparent 80%);
+  background: radial-gradient(46% 50% at 50% 52%, rgba(8,8,8,.9), rgba(8,8,8,.45) 70%, transparent);
 }
-.wk-float-stage { position: absolute; left: 50%; top: 46%; transform-style: preserve-3d; }
+.wk-float-stage { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; }
 .wk-card {
   position: absolute; left: 0; top: 0;
   width: var(--cw, 220px); aspect-ratio: 4 / 3; margin: calc(var(--cw, 220px) * -0.375) 0 0 calc(var(--cw, 220px) * -0.5);
@@ -582,18 +575,22 @@ body.menu-open .nav-work { opacity: 0; pointer-events: none; }
   margin: calc(var(--pw) * -0.75) 0 0 calc(var(--pw) * -0.5);
   border-radius: 14px; overflow: hidden; background: #121212; color: #fff; text-decoration: none;
   box-shadow: 0 30px 60px -25px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08);
-  transition: transform .75s cubic-bezier(.22,.8,.24,1), opacity .75s ease, filter .75s ease;
-  will-change: transform; -webkit-user-drag: none;
+  will-change: transform, opacity; backface-visibility: hidden; -webkit-user-drag: none;
 }
 .wk-poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .wk-poster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.35) 38%, transparent 60%), linear-gradient(to bottom, rgba(0,0,0,.45), transparent 22%); }
-.wk-poster.is-active { box-shadow: 0 40px 80px -30px rgba(0,0,0,.95), 0 0 0 1px color-mix(in srgb, var(--c) 60%, transparent), 0 0 40px -6px color-mix(in srgb, var(--c) 70%, transparent); }
+.wk-poster::before { /* soft colour ring, faded in as a card reaches the centre */
+  content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 70%, transparent), inset 0 0 30px -10px color-mix(in srgb, var(--c) 80%, transparent);
+  opacity: var(--on, 0);
+}
+.wk-poster-shade { position: absolute; inset: 0; z-index: 3; background: #050505; opacity: var(--dim, 0); pointer-events: none; }
 .wk-poster-num, .wk-poster-tag, .wk-poster-cap { position: absolute; z-index: 1; }
 .wk-poster-num { top: .8rem; left: .8rem; width: 1.9rem; height: 1.9rem; border-radius: 50%; display: grid; place-items: center; font-size: .68rem; font-weight: 700; letter-spacing: .04em; background: var(--c); color: #fff; }
 .wk-poster-tag { top: .85rem; right: .9rem; font-size: clamp(.95rem, 1.4vw, 1.2rem); font-weight: 600; letter-spacing: -.01em; text-shadow: 0 2px 10px rgba(0,0,0,.6); max-width: 65%; text-align: right; line-height: 1.1; }
 .wk-poster-cap { left: .95rem; right: .95rem; bottom: .95rem; display: grid; gap: .45rem; }
 .wk-poster-cap b { font-family: var(--body); font-weight: 600; font-size: clamp(1rem, 1.5vw, 1.3rem); line-height: 1.15; }
-.wk-poster-cap small { justify-self: start; font-size: .68rem; letter-spacing: .03em; color: rgba(255,255,255,.8); padding: .3rem .6rem; border-radius: 999px; background: rgba(255,255,255,.12); backdrop-filter: blur(6px); }
+.wk-poster-cap small { justify-self: start; font-size: .68rem; letter-spacing: .03em; color: rgba(255,255,255,.8); padding: .3rem .6rem; border-radius: 999px; background: rgba(20,20,20,.6); }
 .wk-poster-type { position: absolute; inset: 0; display: grid; place-items: center; padding: 18% 14%; font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: .95; text-align: center; background: radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--c) 45%, #111), #0b0b0b 70%); color: #fff; }
 a.wk-poster.is-active:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .wk-shelf-bar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem; max-width: 44rem; margin: 1.5rem auto 0; }
@@ -1298,7 +1295,6 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
 
     <!-- Intro -->
     <header class="wk-grid wk-intro" data-tone="#080808">
-      <div class="wk-float" aria-hidden="true"><div class="wk-float-stage"></div></div>
       <div class="wk-intro-head">
         <p class="section-eyebrow reveal">01 — What I Build</p>
         <h2 class="wk-title" id="wk-heading">
@@ -1318,46 +1314,55 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
           <img src="reg.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 50%">
           <span class="wk-poster-num">01</span><span class="wk-poster-tag">400+ swimmers</span>
           <span class="wk-poster-cap"><b>Baroda Swimming Championship 2026</b><small>Registration platform · 2026</small></span>
+          <span class="wk-poster-shade"></span>
         </a>
         <a class="wk-poster" style="--c:#3f9b3a" data-desc="Farmers make a normal phone call, speak in their own language, and get mandi prices and matching buyers. The prototype led to an internship offer in Delhi." data-cta="View code" href="https://github.com/krish2147/kisan-setu-2.0" target="_blank" rel="noopener" data-cursor="View code ↗" aria-label="KisanSetu: Voice platform · SIH 2026. View code (opens in a new tab)">
           <img src="kisansetu-logo.jpg" loading="lazy" decoding="async" alt="" style="object-fit:contain;background:#0b0b0b;padding:18%">
           <span class="wk-poster-num">02</span><span class="wk-poster-tag">Internship offer</span>
           <span class="wk-poster-cap"><b>KisanSetu</b><small>Voice platform · SIH 2026</small></span>
+          <span class="wk-poster-shade"></span>
         </a>
         <a class="wk-poster" style="--c:#e8a92c" data-desc="A website built around admissions: campus visits, enquiries and the full Pre-Nursery to Grade 12 journey in one place." data-cta="Visit site" href="https://aark-international-school.vercel.app/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Aark International School: School website · Vadodara. Visit site (opens in a new tab)">
           <img src="aark.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
           <span class="wk-poster-num">03</span><span class="wk-poster-tag">Admissions</span>
           <span class="wk-poster-cap"><b>Aark International School</b><small>School website · Vadodara</small></span>
+          <span class="wk-poster-shade"></span>
         </a>
         <a class="wk-poster" style="--c:#b8973a" data-desc="Website and advertising that explain the clinic&#x27;s services, the doctor&#x27;s expertise and what patients experience." data-cta="Visit site" href="https://khastbhanjan-chiropractic.vercel.app/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Kashtbhanjan Chiropractic: Healthcare website and ads. Visit site (opens in a new tab)">
           <img src="clinic.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
           <span class="wk-poster-num">04</span><span class="wk-poster-tag">Clinic</span>
           <span class="wk-poster-cap"><b>Kashtbhanjan Chiropractic</b><small>Healthcare website and ads</small></span>
+          <span class="wk-poster-shade"></span>
         </a>
         <a class="wk-poster" style="--c:#19b6d6" data-desc="Registration, fees, schedules, events and gallery for a swimming club in Vadodara." data-cta="Visit site" href="https://krish2147.github.io/Baroda-swimming-front/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Baroda Swim Front: Swimming club website. Visit site (opens in a new tab)">
           <img src="bsf.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
           <span class="wk-poster-num">05</span><span class="wk-poster-tag">Club</span>
           <span class="wk-poster-cap"><b>Baroda Swim Front</b><small>Swimming club website</small></span>
+          <span class="wk-poster-shade"></span>
         </a>
         <div class="wk-poster" style="--c:#2f6fe0" data-desc="Registration, approval, payment, activation, expiry tracking and renewals in one connected system." data-cta="In progress" aria-label="SAMS / UMS: Membership system. In progress">
           <img src="ums.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
           <span class="wk-poster-num">06</span><span class="wk-poster-tag">In progress</span>
           <span class="wk-poster-cap"><b>SAMS / UMS</b><small>Membership system</small></span>
+          <span class="wk-poster-shade"></span>
         </div>
         <a class="wk-poster" style="--c:#5b6cff" data-desc="Helps young Indians find the government services they become eligible for at 18." data-cta="Visit site" href="https://turned-18.onrender.com/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Turned 18: Civic guidance platform. Visit site (opens in a new tab)">
           <img src="turn.jpeg" loading="lazy" decoding="async" alt="" style="object-position:20% 50%">
           <span class="wk-poster-num">07</span><span class="wk-poster-tag">Public good</span>
           <span class="wk-poster-cap"><b>Turned 18</b><small>Civic guidance platform</small></span>
+          <span class="wk-poster-shade"></span>
         </a>
         <a class="wk-poster" style="--c:#ff6a2a" data-desc="A personal brand site for a swimming coach, in English and Hindi." data-cta="Visit site" href="https://sanjay-kumar-swim.vercel.app/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Coach Portfolio: Personal brand site. Visit site (opens in a new tab)">
           <img src="coach.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
           <span class="wk-poster-num">08</span><span class="wk-poster-tag">Brand</span>
           <span class="wk-poster-cap"><b>Coach Portfolio</b><small>Personal brand site</small></span>
+          <span class="wk-poster-shade"></span>
         </a>
         <div class="wk-poster" style="--c:#9b7bff" data-desc="A two-page data visualisation report." data-cta="Report" aria-label="AI Capability Report: Data visualisation report. Report">
           <span class="wk-poster-type" aria-hidden="true">AI Capability Report</span>
           <span class="wk-poster-num">09</span><span class="wk-poster-tag">Report</span>
           <span class="wk-poster-cap"><b>AI Capability Report</b><small>Data visualisation report</small></span>
+          <span class="wk-poster-shade"></span>
         </div>
       </div>
       <div class="wk-shelf-bar">
@@ -1468,6 +1473,7 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
      CONTACT
 ═══════════════════════════════════════════════════════════ -->
 <section id="contact">
+  <div class="wk-float" aria-hidden="true"><div class="wk-float-stage"></div></div>
   <div class="contact-inner">
     <p class="section-eyebrow reveal" style="margin-bottom:3rem">05 — Contact</p>
     <div class="slide-clip"><div class="inner contact-h2">Let's Build</div></div>
@@ -1776,9 +1782,9 @@ window.addEventListener('scroll', () => {
   }
 })();
 
-/* ── FLOATING PROJECT CARDS (Selected Work intro) ─────────── */
+/* ── FLOATING PROJECT CARDS (behind Contact) ────────────── */
 (function(){
-  const layer = document.querySelector('#what-i-build .wk-float');
+  const layer = document.querySelector('#contact .wk-float');
   if(!layer) return;
   const stage = layer.firstElementChild;
   const shots = ['reg.jpeg','aark.jpeg','clinic.jpeg','ums.jpeg','turn.jpeg','kisansetu-logo.jpg'];
@@ -1830,7 +1836,7 @@ window.addEventListener('scroll', () => {
 
   // Desktop: the vanishing point leans gently toward the cursor
   if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
-    let tx = 50, ty = 46, cx = 50, cy = 46, lean = 0;
+    let tx = 50, ty = 50, cx = 50, cy = 50, lean = 0;
     const ease = () => {
       cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
       layer.style.perspectiveOrigin = `${cx.toFixed(2)}% ${cy.toFixed(2)}%`;
@@ -1839,7 +1845,7 @@ window.addEventListener('scroll', () => {
     layer.parentElement.addEventListener('pointermove', e => {
       const b = layer.getBoundingClientRect();
       tx = 50 + ((e.clientX - b.left) / b.width - 0.5) * 10;
-      ty = 46 + ((e.clientY - b.top) / b.height - 0.5) * 8;
+      ty = 50 + ((e.clientY - b.top) / b.height - 0.5) * 8;
       if(!lean) lean = requestAnimationFrame(ease);
     });
   }
@@ -1855,66 +1861,103 @@ window.addEventListener('scroll', () => {
   const dots  = shelf.querySelector('.wk-shelf-dots');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const N = cards.length;
-  let active = 0, prevD = cards.map(() => 0);
   cards.forEach(() => dots.appendChild(document.createElement('i')));
 
-  const rel = i => { let d = i - active; if(d > N / 2) d -= N; if(d < -N / 2) d += N; return d; };
+  // pos is a continuous number: 2.4 means "between poster 3 and 4". Every frame is drawn from it,
+  // so dragging, gliding and wrapping round the loop all move in one unbroken motion.
+  let pos = 0, target = 0, from = 0, t0 = 0, dur = 0, raf = 0, shown = -1, step = 0;
+  const wrap = d => { d = ((d % N) + N) % N; return d > N / 2 ? d - N : d; };
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const measure = () => { step = cards[0].offsetWidth * (innerWidth <= 640 ? 0.68 : 0.62); };
 
-  function render(){
-    const g = shelf.querySelector('.wk-poster').offsetWidth * (innerWidth <= 640 ? 0.68 : 0.62);
+  function draw(){
     cards.forEach((c, i) => {
-      const d = rel(i), a = Math.abs(d);
-      const jump = Math.abs(d - prevD[i]) > 2;     // wrapping round the loop: move it while hidden
-      c.style.transition = jump || reduce ? 'none' : '';
-      const scale = a === 0 ? 1 : Math.max(.62, 1 - a * .14);
-      const x = Math.sign(d) * (a === 0 ? 0 : g * (1 + (a - 1) * .78));
-      c.style.transform = `translate3d(${x.toFixed(1)}px,0,0) scale(${scale})`;
-      c.style.opacity = a > 3 ? 0 : a === 3 ? .55 : 1;
-      c.style.filter = a === 0 ? 'none' : `brightness(${(1 - a * .2).toFixed(2)}) saturate(.7)`;
-      c.style.zIndex = 10 - a;
-      c.style.visibility = a > 3 ? 'hidden' : 'visible';
-      c.classList.toggle('is-active', a === 0);
-      c.tabIndex = a === 0 ? 0 : -1;
-      c.setAttribute('aria-hidden', a === 0 ? 'false' : 'true');
-      prevD[i] = d;
+      const d = wrap(i - pos), a = Math.abs(d);
+      const x = Math.sign(d) * (a <= 1 ? a : 1 + (a - 1) * .78) * step;
+      const scale = Math.max(.6, 1 - a * .14);
+      c.style.transform = `translate3d(${x.toFixed(2)}px,0,0) scale(${scale.toFixed(4)})`;
+      c.style.opacity = a < 2.5 ? 1 : Math.max(0, 1 - (a - 2.5) / 1.1).toFixed(3);
+      c.style.setProperty('--dim', Math.min(.72, a * .26).toFixed(3));
+      c.style.setProperty('--on', Math.max(0, 1 - a * 1.6).toFixed(3));
+      c.style.zIndex = 100 - Math.round(a * 10);
+      c.style.visibility = a > 3.6 ? 'hidden' : 'visible';
     });
-    const cur = cards[active];
-    shelf.style.setProperty('--glow', cur.style.getPropertyValue('--c'));
-    desc.style.opacity = 0;
-    setTimeout(() => { desc.textContent = cur.dataset.desc; desc.style.opacity = 1; }, reduce ? 0 : 200);
-    [...dots.children].forEach((d, i) => d.classList.toggle('on', i === active));
+    const idx = ((Math.round(pos) % N) + N) % N;
+    if(idx !== shown){
+      shown = idx;
+      cards.forEach((c, i) => { c.tabIndex = i === idx ? 0 : -1; c.setAttribute('aria-hidden', i === idx ? 'false' : 'true'); c.classList.toggle('is-active', i === idx); });
+      shelf.style.setProperty('--glow', cards[idx].style.getPropertyValue('--c'));
+      [...dots.children].forEach((d, i) => d.classList.toggle('on', i === idx));
+      desc.style.opacity = 0;
+      clearTimeout(desc._t);
+      desc._t = setTimeout(() => { desc.textContent = cards[idx].dataset.desc; desc.style.opacity = 1; }, reduce ? 0 : 180);
+    }
   }
-  const go = n => { active = (n + N) % N; render(); };
+  function loop(now){
+    const t = Math.min(1, (now - t0) / dur);
+    pos = from + (target - from) * ease(t);
+    draw();
+    raf = t < 1 ? requestAnimationFrame(loop) : 0;
+  }
+  function glideTo(n, ms = 820){
+    cancelAnimationFrame(raf);
+    target = n; from = pos;
+    if(reduce){ pos = target; draw(); return; }
+    t0 = performance.now(); dur = ms * Math.min(1.6, Math.max(.6, Math.abs(target - from)));
+    raf = requestAnimationFrame(loop);
+  }
+  const go = dir => glideTo(Math.round(target) + dir);
 
-  // Auto-advance like the reference, paused while someone is interacting or it is off screen
+  // Auto-advance, paused while someone is interacting or the carousel is off screen
   let timer = 0, visible = false, hold = false;
-  const tick = () => { clearInterval(timer); if(!reduce && visible && !hold) timer = setInterval(() => go(active + 1), 2800); };
+  const tick = () => { clearInterval(timer); if(!reduce && visible && !hold) timer = setInterval(() => go(1), 3200); };
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; tick(); }, { threshold: .35 }).observe(stage);
   shelf.addEventListener('pointerenter', e => { if(e.pointerType === 'mouse'){ hold = true; tick(); } });
   shelf.addEventListener('pointerleave', e => { if(e.pointerType === 'mouse'){ hold = false; tick(); } });
   shelf.addEventListener('focusin', () => { hold = true; tick(); });
   shelf.addEventListener('focusout', () => { hold = false; tick(); });
 
-  shelf.querySelectorAll('.wk-shelf-btn').forEach(b => b.addEventListener('click', () => { go(active + +b.dataset.dir); tick(); }));
+  shelf.querySelectorAll('.wk-shelf-btn').forEach(b => b.addEventListener('click', () => { go(+b.dataset.dir); tick(); }));
   shelf.addEventListener('keydown', e => {
-    if(e.key === 'ArrowRight'){ go(active + 1); cards[active].focus({preventScroll:true}); e.preventDefault(); }
-    if(e.key === 'ArrowLeft'){ go(active - 1); cards[active].focus({preventScroll:true}); e.preventDefault(); }
+    if(e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    go(e.key === 'ArrowRight' ? 1 : -1); e.preventDefault();
+    const n = ((Math.round(target) % N) + N) % N; cards[n].focus({ preventScroll: true });
   });
 
-  // Swipe / drag to browse; a drag never counts as a click
-  let sx = 0, sy = 0, dragging = false, moved = false;
-  stage.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; dragging = true; moved = false; });
-  stage.addEventListener('pointermove', e => { if(dragging && Math.abs(e.clientX - sx) > 8 && Math.abs(e.clientX - sx) > Math.abs(e.clientY - sy)) moved = true; });
-  stage.addEventListener('pointerup', e => {
-    if(!dragging) return; dragging = false;
-    const dx = e.clientX - sx;
-    if(moved && Math.abs(dx) > 40){ go(active + (dx < 0 ? 1 : -1)); tick(); }
+  // Drag follows the finger 1:1, then glides to the nearest poster with the throw's momentum.
+  // A drag never counts as a tap, so it won't open a link by accident.
+  let sx = 0, sy = 0, startPos = 0, down = false, dragging = false, moved = false, lx = 0, lt = 0, v = 0;
+  stage.addEventListener('pointerdown', e => {
+    down = true; dragging = false; moved = false;
+    sx = lx = e.clientX; sy = e.clientY; lt = performance.now(); v = 0;
   });
-  stage.addEventListener('pointercancel', () => dragging = false);
+  stage.addEventListener('pointermove', e => {
+    if(!down) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if(!dragging){
+      if(Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return;
+      dragging = moved = true; hold = true; tick();
+      cancelAnimationFrame(raf); raf = 0; startPos = pos;
+      try { stage.setPointerCapture(e.pointerId); } catch(_){}
+    }
+    const now = performance.now();
+    v = (e.clientX - lx) / Math.max(1, now - lt); lx = e.clientX; lt = now;
+    pos = startPos - dx / step; target = pos; draw();
+  });
+  const release = () => {
+    if(!down) return; down = false;
+    if(!dragging) return;
+    dragging = false; hold = false;
+    const fling = Math.max(-2, Math.min(2, -v * 4));   // fast flick can skip a card or two
+    glideTo(Math.round(pos + fling), 620); tick();
+  };
+  stage.addEventListener('pointerup', release);
+  stage.addEventListener('pointercancel', release);
   stage.addEventListener('click', e => { if(moved){ e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  stage.addEventListener('dragstart', e => e.preventDefault());
 
-  addEventListener('resize', render);
-  render();
+  addEventListener('resize', () => { measure(); draw(); });
+  measure(); draw();
 })();
 
 /* ── SELECTED WORK ──────────────────────────────────────── */
@@ -1999,7 +2042,7 @@ window.addEventListener('scroll', () => {
     });
     el.addEventListener('pointermove', e => {
       x = e.clientX; y = e.clientY;
-      if(tilt) return;
+      if(tilt || !frame) return;
       tilt = requestAnimationFrame(() => {
         const b = el.getBoundingClientRect();
         const px = (x - b.left) / b.width - 0.5;
@@ -2011,7 +2054,7 @@ window.addEventListener('scroll', () => {
     el.addEventListener('pointerleave', () => {
       active = false;
       document.body.classList.remove('wk-cur');
-      frame.style.transform = '';
+      if(frame) frame.style.transform = '';
     });
   });
 
