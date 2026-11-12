@@ -577,8 +577,10 @@ body.menu-open .nav-work { opacity: 0; pointer-events: none; }
   box-shadow: 0 30px 60px -25px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08);
   will-change: transform, opacity; backface-visibility: hidden; -webkit-user-drag: none;
 }
-.wk-poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
-.wk-poster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.35) 38%, transparent 60%), linear-gradient(to bottom, rgba(0,0,0,.45), transparent 22%); }
+.wk-poster { --cap: 30%; }
+.wk-poster img { position: absolute; top: 0; left: 0; width: 100%; height: calc(100% - var(--cap)); object-fit: cover; pointer-events: none; }
+/* photo sits in the top part only; a dark band at the top keeps the number and tag readable */
+.wk-poster::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: calc(100% - var(--cap)); background: linear-gradient(to bottom, rgba(0,0,0,.78), rgba(0,0,0,.25) 22%, transparent 34%), linear-gradient(to top, #0b0b0b, transparent 14%); }
 .wk-poster::before { /* soft colour ring, faded in as a card reaches the centre */
   content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 70%, transparent), inset 0 0 30px -10px color-mix(in srgb, var(--c) 80%, transparent);
@@ -588,10 +590,11 @@ body.menu-open .nav-work { opacity: 0; pointer-events: none; }
 .wk-poster-num, .wk-poster-tag, .wk-poster-cap { position: absolute; z-index: 1; }
 .wk-poster-num { top: .8rem; left: .8rem; width: 1.9rem; height: 1.9rem; border-radius: 50%; display: grid; place-items: center; font-size: .68rem; font-weight: 700; letter-spacing: .04em; background: var(--c); color: #fff; }
 .wk-poster-tag { top: .85rem; right: .9rem; font-size: clamp(.95rem, 1.4vw, 1.2rem); font-weight: 600; letter-spacing: -.01em; text-shadow: 0 2px 10px rgba(0,0,0,.6); max-width: 65%; text-align: right; line-height: 1.1; }
-.wk-poster-cap { left: .95rem; right: .95rem; bottom: .95rem; display: grid; gap: .45rem; }
+/* caption lives on its own solid black panel, never on top of the photo */
+.wk-poster-cap { left: 0; right: 0; bottom: 0; height: var(--cap); padding: .9rem 1rem 1rem; display: grid; align-content: center; gap: .5rem; background: #0b0b0b; border-top: 1px solid color-mix(in srgb, var(--c) 45%, transparent); }
 .wk-poster-cap b { font-family: var(--body); font-weight: 600; font-size: clamp(1rem, 1.5vw, 1.3rem); line-height: 1.15; }
-.wk-poster-cap small { justify-self: start; font-size: .68rem; letter-spacing: .03em; color: rgba(255,255,255,.8); padding: .3rem .6rem; border-radius: 999px; background: rgba(20,20,20,.6); }
-.wk-poster-type { position: absolute; inset: 0; display: grid; place-items: center; padding: 18% 14%; font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: .95; text-align: center; background: radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--c) 45%, #111), #0b0b0b 70%); color: #fff; }
+.wk-poster-cap small { justify-self: start; font-size: .68rem; letter-spacing: .03em; color: rgba(255,255,255,.8); padding: .3rem .6rem; border-radius: 999px; background: rgba(255,255,255,.08); }
+.wk-poster-type { position: absolute; top: 0; left: 0; right: 0; bottom: var(--cap); display: grid; place-items: center; padding: 18% 14%; font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: .95; text-align: center; background: radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--c) 45%, #111), #0b0b0b 70%); color: #fff; }
 a.wk-poster.is-active:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 .wk-shelf-bar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem; max-width: 44rem; margin: 1.5rem auto 0; }
 .wk-shelf-desc { text-align: center; color: rgba(255,255,255,.66); font-size: clamp(.95rem, 1.2vw, 1.05rem); line-height: 1.6; min-height: 3.4em; transition: opacity .35s ease; }
@@ -1909,15 +1912,27 @@ window.addEventListener('scroll', () => {
   const go = dir => glideTo(Math.round(target) + dir);
 
   // Auto-advance, paused while someone is interacting or the carousel is off screen
-  let timer = 0, visible = false, hold = false;
-  const tick = () => { clearInterval(timer); if(!reduce && visible && !hold) timer = setInterval(() => go(1), 3200); };
+  // Loops on its own. Touching it pauses for 1 second, then it carries on from wherever you left it.
+  let timer = 0, resume = 0, visible = false, hold = false;
+  const INTERVAL = 3200, TOUCH_PAUSE = 1000;
+  const tick = () => {
+    clearTimeout(timer); clearTimeout(resume);
+    if(reduce || !visible || hold) return;
+    const next = () => { go(1); timer = setTimeout(next, INTERVAL); };
+    timer = setTimeout(next, INTERVAL);
+  };
+  const pauseThenResume = () => {
+    clearTimeout(timer); clearTimeout(resume);
+    resume = setTimeout(() => { if(!hold && visible && !reduce){ go(1); tick(); } }, TOUCH_PAUSE);
+  };
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; tick(); }, { threshold: .35 }).observe(stage);
+  // Desktop: hovering holds it still; touch screens never get stuck paused
   shelf.addEventListener('pointerenter', e => { if(e.pointerType === 'mouse'){ hold = true; tick(); } });
   shelf.addEventListener('pointerleave', e => { if(e.pointerType === 'mouse'){ hold = false; tick(); } });
-  shelf.addEventListener('focusin', () => { hold = true; tick(); });
-  shelf.addEventListener('focusout', () => { hold = false; tick(); });
+  shelf.addEventListener('focusin', e => { if(e.target.matches(':focus-visible')){ hold = true; tick(); } });
+  shelf.addEventListener('focusout', () => { if(hold && !shelf.matches(':hover')){ hold = false; tick(); } });
 
-  shelf.querySelectorAll('.wk-shelf-btn').forEach(b => b.addEventListener('click', () => { go(+b.dataset.dir); tick(); }));
+  shelf.querySelectorAll('.wk-shelf-btn').forEach(b => b.addEventListener('click', () => { go(+b.dataset.dir); if(!hold) pauseThenResume(); }));
   shelf.addEventListener('keydown', e => {
     if(e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
     go(e.key === 'ArrowRight' ? 1 : -1); e.preventDefault();
@@ -1928,6 +1943,7 @@ window.addEventListener('scroll', () => {
   // A drag never counts as a tap, so it won't open a link by accident.
   let sx = 0, sy = 0, startPos = 0, down = false, dragging = false, moved = false, lx = 0, lt = 0, v = 0;
   stage.addEventListener('pointerdown', e => {
+    if(e.pointerType !== 'mouse'){ clearTimeout(timer); clearTimeout(resume); }
     down = true; dragging = false; moved = false;
     sx = lx = e.clientX; sy = e.clientY; lt = performance.now(); v = 0;
   });
@@ -1936,7 +1952,7 @@ window.addEventListener('scroll', () => {
     const dx = e.clientX - sx, dy = e.clientY - sy;
     if(!dragging){
       if(Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(dy)) return;
-      dragging = moved = true; hold = true; tick();
+      dragging = moved = true; clearTimeout(timer); clearTimeout(resume);
       cancelAnimationFrame(raf); raf = 0; startPos = pos;
       try { stage.setPointerCapture(e.pointerId); } catch(_){}
     }
@@ -1944,12 +1960,14 @@ window.addEventListener('scroll', () => {
     v = (e.clientX - lx) / Math.max(1, now - lt); lx = e.clientX; lt = now;
     pos = startPos - dx / step; target = pos; draw();
   });
-  const release = () => {
+  const release = e => {
     if(!down) return; down = false;
-    if(!dragging) return;
-    dragging = false; hold = false;
-    const fling = Math.max(-2, Math.min(2, -v * 4));   // fast flick can skip a card or two
-    glideTo(Math.round(pos + fling), 620); tick();
+    if(dragging){
+      dragging = false;
+      const fling = Math.max(-2, Math.min(2, -v * 4));   // fast flick can skip a card or two
+      glideTo(Math.round(pos + fling), 620);
+    }
+    if(e.pointerType !== 'mouse' || !hold) pauseThenResume();
   };
   stage.addEventListener('pointerup', release);
   stage.addEventListener('pointercancel', release);
