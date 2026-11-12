@@ -529,6 +529,40 @@ body.menu-open .nav-work { opacity: 0; pointer-events: none; }
   line-height: 1.5; color: rgba(255,255,255,.74); max-width: 22rem;
 }
 
+/* ── Floating project cards behind the intro ── */
+.wk-intro { position: relative; isolation: isolate; }
+.wk-intro > :not(.wk-float) { position: relative; z-index: 1; }
+.wk-float {
+  position: absolute; z-index: 0; pointer-events: none; overflow: hidden;
+  top: calc(-1 * clamp(7rem, 11vw, 10rem)); bottom: 0;
+  left: calc(-1 * var(--wk-pad) - max(0px, (100vw - var(--wk-max) - 2 * var(--wk-pad)) / 2));
+  width: 100vw;
+  perspective: 900px; perspective-origin: 50% 46%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 18%, #000 78%, transparent);
+}
+.wk-float::after {
+  /* keeps the heading and lead readable over the cards */
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(45% 50% at 30% 62%, rgba(8,8,8,.7), transparent 75%),
+    radial-gradient(28% 30% at 80% 66%, rgba(8,8,8,.85), transparent 80%);
+}
+.wk-float-stage { position: absolute; left: 50%; top: 46%; transform-style: preserve-3d; }
+.wk-card {
+  position: absolute; left: 0; top: 0;
+  width: var(--cw, 220px); aspect-ratio: 4 / 3; margin: calc(var(--cw, 220px) * -0.375) 0 0 calc(var(--cw, 220px) * -0.5);
+  border-radius: 10px; overflow: hidden; opacity: 0;
+  background: #111; border: 1px solid rgba(184,151,58,.22);
+  box-shadow: 0 30px 60px -20px rgba(0,0,0,.8);
+  will-change: transform, opacity; backface-visibility: hidden;
+  transition: filter .6s linear;
+}
+.wk-card img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.wk-card.is-far  { filter: blur(3px) brightness(.6); }
+.wk-card.is-mid  { filter: blur(1.2px) brightness(.8); }
+@media (max-width: 900px) { .wk-float { perspective: 700px; } .wk-card { --cw: 150px; } }
+
 /* ── Frames (screenshots as objects) ── */
 .wk-visual { display: block; position: relative; text-decoration: none; }
 .wk-frame {
@@ -1218,6 +1252,7 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
 
     <!-- Intro -->
     <header class="wk-grid wk-intro" data-tone="#080808">
+      <div class="wk-float" aria-hidden="true"><div class="wk-float-stage"></div></div>
       <div class="wk-intro-head">
         <p class="section-eyebrow reveal">01 — What I Build</p>
         <h2 class="wk-title" id="wk-heading">
@@ -1826,6 +1861,75 @@ window.addEventListener('scroll', () => {
       });
     }, {threshold: 0.3});
     divIO.observe(divider);
+  }
+})();
+
+/* ── FLOATING PROJECT CARDS (Selected Work intro) ─────────── */
+(function(){
+  const layer = document.querySelector('#what-i-build .wk-float');
+  if(!layer) return;
+  const stage = layer.firstElementChild;
+  const shots = ['reg.jpeg','aark.jpeg','clinic.jpeg','ums.jpeg','turn.jpeg','kisansetu-logo.jpg'];
+  const small = window.matchMedia('(max-width: 900px)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N = small ? 8 : 14;
+  const Z0 = -1600, Z1 = 520, LIFE = 15000;   // ms for one card to travel the full depth
+
+  // Golden-angle spread so cards fan out evenly around the vanishing point
+  const cards = [];
+  for(let i = 0; i < N; i++){
+    const el = document.createElement('div');
+    el.className = 'wk-card';
+    const img = new Image();
+    img.src = shots[i % shots.length]; img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
+    el.appendChild(img); stage.appendChild(el);
+    const a = i * 2.39996 + 0.6;
+    const r = (small ? 260 : 420) + (i % 3) * (small ? 70 : 120);
+    cards.push({
+      el, x: Math.cos(a) * r * (small ? 0.8 : 1.45), y: Math.sin(a) * r * 0.8,
+      rx: (i % 2 ? 1 : -1) * (8 + (i * 7) % 14), ry: (i % 3 - 1) * 16, rz: ((i * 13) % 30) - 15,
+      off: i / N, band: ''
+    });
+  }
+
+  function place(c, t){
+    const z = Z0 + (Z1 - Z0) * t;
+    const o = Math.min(1, t / 0.18) * Math.min(1, (1 - t) / 0.12);
+    const spin = (t - 0.5) * 18;
+    c.el.style.transform = `translate3d(${c.x}px,${c.y}px,${z}px) rotateX(${c.rx + spin}deg) rotateY(${c.ry - spin}deg) rotateZ(${c.rz}deg)`;
+    c.el.style.opacity = o.toFixed(3);
+    const band = t < 0.38 ? 'is-far' : t < 0.62 ? 'is-mid' : '';
+    if(band !== c.band){ if(c.band) c.el.classList.remove(c.band); if(band) c.el.classList.add(band); c.band = band; }
+  }
+
+  if(reduce){ cards.forEach(c => place(c, 0.35 + c.off * 0.5)); return; }
+
+  let running = false, raf = 0, start = performance.now(), paused = 0;
+  function frame(now){
+    const base = (now - start) / LIFE;
+    cards.forEach(c => place(c, (base + c.off) % 1));
+    raf = requestAnimationFrame(frame);
+  }
+  new IntersectionObserver(([e]) => {
+    if(e.isIntersecting && !running){ start += performance.now() - paused; running = true; raf = requestAnimationFrame(frame); }
+    else if(!e.isIntersecting && running){ running = false; paused = performance.now(); cancelAnimationFrame(raf); }
+  }, { rootMargin: '100px 0px' }).observe(layer);
+  paused = performance.now();
+
+  // Desktop: the vanishing point leans gently toward the cursor
+  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    let tx = 50, ty = 46, cx = 50, cy = 46, lean = 0;
+    const ease = () => {
+      cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
+      layer.style.perspectiveOrigin = `${cx.toFixed(2)}% ${cy.toFixed(2)}%`;
+      lean = (Math.abs(tx - cx) + Math.abs(ty - cy) > 0.05) ? requestAnimationFrame(ease) : 0;
+    };
+    layer.parentElement.addEventListener('pointermove', e => {
+      const b = layer.getBoundingClientRect();
+      tx = 50 + ((e.clientX - b.left) / b.width - 0.5) * 10;
+      ty = 46 + ((e.clientY - b.top) / b.height - 0.5) * 8;
+      if(!lean) lean = requestAnimationFrame(ease);
+    });
   }
 })();
 
