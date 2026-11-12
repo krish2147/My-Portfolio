@@ -563,6 +563,52 @@ body.menu-open .nav-work { opacity: 0; pointer-events: none; }
 .wk-card.is-mid  { filter: blur(1.2px) brightness(.8); }
 @media (max-width: 900px) { .wk-float { perspective: 700px; } .wk-card { --cw: 150px; } }
 
+/* ── Projects: poster carousel ── */
+@property --glow { syntax: '<color>'; inherits: true; initial-value: #b8973a; }
+.wk-shelf { position: relative; padding: 2rem 0 clamp(5rem, 9vw, 8rem); --pw: clamp(210px, 22vw, 300px); transition: --glow 1s ease; }
+.wk-shelf-stage {
+  position: relative; height: calc(var(--pw) * 1.5 + 4rem);
+  margin: 0 calc(-1 * var(--wk-pad) - max(0px, (100vw - var(--wk-max) - 2 * var(--wk-pad)) / 2));
+  overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+}
+.wk-shelf-stage::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: min(140vw, 1400px); height: calc(var(--pw) * 1.25);
+  transform: translate(-50%, -50%); pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--glow) 80%, transparent), transparent);
+  filter: blur(24px);
+}
+.wk-poster {
+  position: absolute; left: 50%; top: 50%; width: var(--pw); aspect-ratio: 2 / 3;
+  margin: calc(var(--pw) * -0.75) 0 0 calc(var(--pw) * -0.5);
+  border-radius: 14px; overflow: hidden; background: #121212; color: #fff; text-decoration: none;
+  box-shadow: 0 30px 60px -25px rgba(0,0,0,.9), 0 0 0 1px rgba(255,255,255,.08);
+  transition: transform .75s cubic-bezier(.22,.8,.24,1), opacity .75s ease, filter .75s ease;
+  will-change: transform; -webkit-user-drag: none;
+}
+.wk-poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.wk-poster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.35) 38%, transparent 60%), linear-gradient(to bottom, rgba(0,0,0,.45), transparent 22%); }
+.wk-poster.is-active { box-shadow: 0 40px 80px -30px rgba(0,0,0,.95), 0 0 0 1px color-mix(in srgb, var(--c) 60%, transparent), 0 0 40px -6px color-mix(in srgb, var(--c) 70%, transparent); }
+.wk-poster-num, .wk-poster-tag, .wk-poster-cap { position: absolute; z-index: 1; }
+.wk-poster-num { top: .8rem; left: .8rem; width: 1.9rem; height: 1.9rem; border-radius: 50%; display: grid; place-items: center; font-size: .68rem; font-weight: 700; letter-spacing: .04em; background: var(--c); color: #fff; }
+.wk-poster-tag { top: .85rem; right: .9rem; font-size: clamp(.95rem, 1.4vw, 1.2rem); font-weight: 600; letter-spacing: -.01em; text-shadow: 0 2px 10px rgba(0,0,0,.6); max-width: 65%; text-align: right; line-height: 1.1; }
+.wk-poster-cap { left: .95rem; right: .95rem; bottom: .95rem; display: grid; gap: .45rem; }
+.wk-poster-cap b { font-family: var(--body); font-weight: 600; font-size: clamp(1rem, 1.5vw, 1.3rem); line-height: 1.15; }
+.wk-poster-cap small { justify-self: start; font-size: .68rem; letter-spacing: .03em; color: rgba(255,255,255,.8); padding: .3rem .6rem; border-radius: 999px; background: rgba(255,255,255,.12); backdrop-filter: blur(6px); }
+.wk-poster-type { position: absolute; inset: 0; display: grid; place-items: center; padding: 18% 14%; font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: .95; text-align: center; background: radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--c) 45%, #111), #0b0b0b 70%); color: #fff; }
+a.wk-poster.is-active:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.wk-shelf-bar { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.5rem; max-width: 44rem; margin: 1.5rem auto 0; }
+.wk-shelf-desc { text-align: center; color: rgba(255,255,255,.66); font-size: clamp(.95rem, 1.2vw, 1.05rem); line-height: 1.6; min-height: 3.4em; transition: opacity .35s ease; }
+.wk-shelf-btn { width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid rgba(184,151,58,.45); background: transparent; color: var(--gold); font-size: 1.1rem; cursor: pointer; transition: background .3s, color .3s; }
+.wk-shelf-btn:hover, .wk-shelf-btn:focus-visible { background: var(--gold); color: #080808; outline: none; }
+.wk-shelf-dots { display: flex; justify-content: center; gap: .45rem; margin-top: 1.4rem; }
+.wk-shelf-dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(255,255,255,.22); transition: width .4s, background .4s; }
+.wk-shelf-dots i.on { width: 22px; background: var(--gold); }
+@media (max-width: 640px) {
+  .wk-shelf { --pw: 62vw; }
+  .wk-shelf-bar { gap: .75rem; }
+  .wk-shelf-btn { width: 2.6rem; height: 2.6rem; }
+}
+
 /* ── Frames (screenshots as objects) ── */
 .wk-visual { display: block; position: relative; text-decoration: none; }
 .wk-frame {
@@ -1265,195 +1311,61 @@ footer small { font-size: 0.68rem; color: rgba(255,255,255,.1); }
       </div>
     </header>
 
-    <!-- 01 · Championship -->
-    <article class="wk-flag" data-tone="#060a10" aria-labelledby="wk-p1">
-      <div class="wk-grid wk-flag-head">
-        <div class="wk-flag-title">
-          <p class="wk-num reveal">01</p>
-          <h3 class="wk-name" id="wk-p1">
-            <span class="slide-clip"><span class="inner">Baroda Swimming</span></span>
-            <span class="slide-clip" style="--d:.1s"><span class="inner">Championship 2026</span></span>
-          </h3>
+    <!-- Projects · poster carousel (click a poster to open the project) -->
+    <div class="wk-shelf" data-tone="#080808" role="region" aria-roledescription="carousel" aria-label="Projects">
+      <div class="wk-shelf-stage">
+        <a class="wk-poster" style="--c:#d0343a" data-desc="Online registration that replaced a manual process. Entries and payments flow into Google Sheets, and every swimmer gets a digital pass and certificate." data-cta="Visit site" href="https://baroda-swimming-championship-2026.vercel.app/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Baroda Swimming Championship 2026: Registration platform · 2026. Visit site (opens in a new tab)">
+          <img src="reg.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 50%">
+          <span class="wk-poster-num">01</span><span class="wk-poster-tag">400+ swimmers</span>
+          <span class="wk-poster-cap"><b>Baroda Swimming Championship 2026</b><small>Registration platform · 2026</small></span>
+        </a>
+        <a class="wk-poster" style="--c:#3f9b3a" data-desc="Farmers make a normal phone call, speak in their own language, and get mandi prices and matching buyers. The prototype led to an internship offer in Delhi." data-cta="View code" href="https://github.com/krish2147/kisan-setu-2.0" target="_blank" rel="noopener" data-cursor="View code ↗" aria-label="KisanSetu: Voice platform · SIH 2026. View code (opens in a new tab)">
+          <img src="kisansetu-logo.jpg" loading="lazy" decoding="async" alt="" style="object-fit:contain;background:#0b0b0b;padding:18%">
+          <span class="wk-poster-num">02</span><span class="wk-poster-tag">Internship offer</span>
+          <span class="wk-poster-cap"><b>KisanSetu</b><small>Voice platform · SIH 2026</small></span>
+        </a>
+        <a class="wk-poster" style="--c:#e8a92c" data-desc="A website built around admissions: campus visits, enquiries and the full Pre-Nursery to Grade 12 journey in one place." data-cta="Visit site" href="https://aark-international-school.vercel.app/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Aark International School: School website · Vadodara. Visit site (opens in a new tab)">
+          <img src="aark.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
+          <span class="wk-poster-num">03</span><span class="wk-poster-tag">Admissions</span>
+          <span class="wk-poster-cap"><b>Aark International School</b><small>School website · Vadodara</small></span>
+        </a>
+        <a class="wk-poster" style="--c:#b8973a" data-desc="Website and advertising that explain the clinic&#x27;s services, the doctor&#x27;s expertise and what patients experience." data-cta="Visit site" href="https://khastbhanjan-chiropractic.vercel.app/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Kashtbhanjan Chiropractic: Healthcare website and ads. Visit site (opens in a new tab)">
+          <img src="clinic.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
+          <span class="wk-poster-num">04</span><span class="wk-poster-tag">Clinic</span>
+          <span class="wk-poster-cap"><b>Kashtbhanjan Chiropractic</b><small>Healthcare website and ads</small></span>
+        </a>
+        <a class="wk-poster" style="--c:#19b6d6" data-desc="Registration, fees, schedules, events and gallery for a swimming club in Vadodara." data-cta="Visit site" href="https://krish2147.github.io/Baroda-swimming-front/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Baroda Swim Front: Swimming club website. Visit site (opens in a new tab)">
+          <img src="bsf.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
+          <span class="wk-poster-num">05</span><span class="wk-poster-tag">Club</span>
+          <span class="wk-poster-cap"><b>Baroda Swim Front</b><small>Swimming club website</small></span>
+        </a>
+        <div class="wk-poster" style="--c:#2f6fe0" data-desc="Registration, approval, payment, activation, expiry tracking and renewals in one connected system." data-cta="In progress" aria-label="SAMS / UMS: Membership system. In progress">
+          <img src="ums.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
+          <span class="wk-poster-num">06</span><span class="wk-poster-tag">In progress</span>
+          <span class="wk-poster-cap"><b>SAMS / UMS</b><small>Membership system</small></span>
         </div>
-        <div class="wk-flag-info reveal" style="--delay:.15s">
-          <p class="wk-stat"><b>400+</b><span>swimmers registered through the platform</span></p>
-          <p class="wk-body">Built and launched the digital registration system that replaced a more manual process with a faster, structured online experience.</p>
-          <dl class="wk-meta">
-            <div><dt class="wk-label">Client</dt><dd>Baroda Swim Front</dd></div>
-            <div><dt class="wk-label">Year</dt><dd>2026</dd></div>
-            <div class="wk-wide wk-tech"><dt class="wk-label">Built with</dt><dd>React, Google Apps Script, Google Sheets, Vercel</dd></div>
-          </dl>
-        </div>
-      </div>
-
-      <div class="wk-grid">
-        <div class="wk-flag-visual">
-          <a class="wk-visual wk-tilt" href="https://baroda-swimming-championship-2026.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="Visit site ↗">
-            <div class="wk-frame wk-mask">
-              <div class="wk-bar"><i></i><i></i><i></i><span class="wk-url">baroda-swimming-championship-2026.vercel.app</span></div>
-              <div class="wk-shot" style="--ar:1261/605">
-                <div class="wk-par"><img src="reg.jpeg" width="1261" height="605" loading="lazy" decoding="async" alt=""></div>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <ol class="wk-grid wk-steps">
-          <li class="wk-step reveal">
-            <span class="wk-step-num">01</span>
-            <h4>Register</h4>
-            <p>Swimmers enrol in their events online through a secure registration form.</p>
-          </li>
-          <li class="wk-step reveal" style="--delay:.1s">
-            <span class="wk-step-num">02</span>
-            <h4>Track</h4>
-            <p>Entries and payment status flow into Google Sheets, so organisers can follow everything in one place.</p>
-          </li>
-          <li class="wk-step reveal" style="--delay:.2s">
-            <span class="wk-step-num">03</span>
-            <h4>Deliver</h4>
-            <p>Every participant gets a digital pass, and certificates are distributed automatically.</p>
-          </li>
-        </ol>
-
-        <div class="wk-flag-cta">
-          <a class="wk-cta" href="https://baroda-swimming-championship-2026.vercel.app/" target="_blank" rel="noopener">Visit the live site <span class="wk-arrow" aria-hidden="true">↗</span></a>
+        <a class="wk-poster" style="--c:#5b6cff" data-desc="Helps young Indians find the government services they become eligible for at 18." data-cta="Visit site" href="https://turned-18.onrender.com/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Turned 18: Civic guidance platform. Visit site (opens in a new tab)">
+          <img src="turn.jpeg" loading="lazy" decoding="async" alt="" style="object-position:20% 50%">
+          <span class="wk-poster-num">07</span><span class="wk-poster-tag">Public good</span>
+          <span class="wk-poster-cap"><b>Turned 18</b><small>Civic guidance platform</small></span>
+        </a>
+        <a class="wk-poster" style="--c:#ff6a2a" data-desc="A personal brand site for a swimming coach, in English and Hindi." data-cta="Visit site" href="https://sanjay-kumar-swim.vercel.app/" target="_blank" rel="noopener" data-cursor="Visit site ↗" aria-label="Coach Portfolio: Personal brand site. Visit site (opens in a new tab)">
+          <img src="coach.jpeg" loading="lazy" decoding="async" alt="" style="object-position:50% 0%">
+          <span class="wk-poster-num">08</span><span class="wk-poster-tag">Brand</span>
+          <span class="wk-poster-cap"><b>Coach Portfolio</b><small>Personal brand site</small></span>
+        </a>
+        <div class="wk-poster" style="--c:#9b7bff" data-desc="A two-page data visualisation report." data-cta="Report" aria-label="AI Capability Report: Data visualisation report. Report">
+          <span class="wk-poster-type" aria-hidden="true">AI Capability Report</span>
+          <span class="wk-poster-num">09</span><span class="wk-poster-tag">Report</span>
+          <span class="wk-poster-cap"><b>AI Capability Report</b><small>Data visualisation report</small></span>
         </div>
       </div>
-    </article>
-
-    <!-- 02 · KisanSetu -->
-    <article class="wk-grid wk-proj wk-proj--bleed" data-tone="#070b07" aria-labelledby="wk-p2">
-      <a class="wk-visual wk-tilt" href="https://github.com/krish2147/kisan-setu-2.0" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="View code ↗">
-        <div class="wk-frame wk-panel wk-mask" data-reveal="side">
-          <div class="wk-brand">
-            <img class="wk-logo" src="kisansetu-logo.jpg" width="640" height="640" loading="lazy" decoding="async" alt="">
-          </div>
-          <p class="wk-label">How a call works</p>
-          <ol class="wk-flow">
-            <li><span class="wk-flow-dot"></span><b>Call</b><span>The farmer makes a normal phone call.</span></li>
-            <li><span class="wk-flow-dot"></span><b>Speak</b><span>They say what they need in their own language.</span></li>
-            <li><span class="wk-flow-dot"></span><b>Match</b><span>The platform checks mandi prices and finds matching buyers or sellers.</span></li>
-            <li><span class="wk-flow-dot"></span><b>Connect</b><span>The farmer is connected with a buyer.</span></li>
-          </ol>
-        </div>
-      </a>
-      <div class="wk-text">
-        <p class="wk-num reveal">02</p>
-        <h3 class="wk-name" id="wk-p2"><span class="slide-clip"><span class="inner">KisanSetu</span></span></h3>
-        <div class="reveal" style="--delay:.15s">
-          <p class="wk-kicker">From hackathon prototype to a real opportunity.</p>
-          <p class="wk-body">A multilingual voice-call platform that lets farmers check mandi prices, buy or sell produce, discover matches and connect with buyers through a normal phone call. After Dr. Buddha Chandrasekhar saw the working prototype during a college visit, it led to an internship offer in Delhi.</p>
-          <dl class="wk-meta">
-            <div><dt class="wk-label">Event</dt><dd>Smart India Hackathon 2026</dd></div>
-            <div><dt class="wk-label">Status</dt><dd>Working prototype</dd></div>
-          </dl>
-          <a class="wk-cta" href="https://github.com/krish2147/kisan-setu-2.0" target="_blank" rel="noopener">View the code <span class="wk-arrow" aria-hidden="true">↗</span></a>
-        </div>
+      <div class="wk-shelf-bar">
+        <button class="wk-shelf-btn" type="button" data-dir="-1" aria-label="Previous project">←</button>
+        <p class="wk-shelf-desc" aria-live="polite"></p>
+        <button class="wk-shelf-btn" type="button" data-dir="1" aria-label="Next project">→</button>
       </div>
-    </article>
-
-    <!-- 03 · Aark -->
-    <article class="wk-grid wk-proj wk-proj--pair" data-tone="#08080f" aria-labelledby="wk-p3">
-      <div class="wk-text">
-        <p class="wk-num reveal">03</p>
-        <h3 class="wk-name" id="wk-p3">
-          <span class="slide-clip"><span class="inner">Aark</span></span>
-          <span class="slide-clip" style="--d:.08s"><span class="inner">International</span></span>
-          <span class="slide-clip" style="--d:.16s"><span class="inner">School</span></span>
-        </h3>
-        <div class="reveal" style="--delay:.15s">
-          <p class="wk-kicker">Reimagining the school's digital experience around admissions.</p>
-          <p class="wk-body">A redesigned website that brings admissions information, campus visits, enquiries, interactive learning experiences and the complete Pre-Nursery to Grade 12 journey together in one place.</p>
-          <dl class="wk-meta">
-            <div><dt class="wk-label">Client</dt><dd>Aark International School, Vadodara</dd></div>
-            <div><dt class="wk-label">Status</dt><dd class="wk-status">In progress</dd></div>
-          </dl>
-        </div>
-      </div>
-      <div class="wk-visual wk-tilt">
-        <div class="wk-frame wk-frame--device wk-mask">
-          <div class="wk-shot" style="--ar:600/1042;--pos:50% 0%">
-            <div class="wk-par"><img src="aark.jpeg" width="600" height="1042" loading="lazy" decoding="async" alt="Aark International School website home screen on mobile: Every child arrives with a story, with Book a Campus Visit button"></div>
-          </div>
-        </div>
-      </div>
-    </article>
-
-    <!-- 04 · Clinic -->
-    <article class="wk-grid wk-proj wk-proj--center" data-tone="#0c0a07" aria-labelledby="wk-p4">
-      <div class="wk-head">
-        <p class="wk-num reveal">04</p>
-        <h3 class="wk-name" id="wk-p4"><span class="slide-clip"><span class="inner">Kashtbhanjan Chiropractic</span></span></h3>
-      </div>
-      <div class="wk-left reveal" style="--delay:.1s">
-        <p class="wk-kicker">Marketing built around real patient trust.</p>
-        <p class="wk-body">Website and advertising work that helps the clinic explain its services, its doctor's expertise and what patients experience.</p>
-      </div>
-      <a class="wk-visual wk-tilt" href="https://khastbhanjan-chiropractic.vercel.app/" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true" data-cursor="Visit site ↗">
-        <div class="wk-frame wk-frame--device wk-mask">
-          <div class="wk-shot" style="--ar:353/495;--pos:50% 0%">
-            <div class="wk-par"><img src="clinic.jpeg" width="353" height="495" loading="lazy" decoding="async" alt=""></div>
-          </div>
-        </div>
-      </a>
-      <div class="wk-right reveal" style="--delay:.2s">
-        <dl class="wk-meta">
-          <div><dt class="wk-label">Type</dt><dd>Healthcare website and advertising</dd></div>
-          <div class="wk-tech"><dt class="wk-label">Built with</dt><dd>React, Tailwind CSS, Node.js</dd></div>
-        </dl>
-        <a class="wk-cta" href="https://khastbhanjan-chiropractic.vercel.app/" target="_blank" rel="noopener">Visit the live site <span class="wk-arrow" aria-hidden="true">↗</span></a>
-      </div>
-    </article>
-
-    <!-- Index -->
-    <div class="wk-index" data-tone="#080808">
-      <div class="wk-grid wk-index-head">
-        <h3 class="reveal">Also built</h3>
-        <p class="reveal" style="--delay:.1s">Club systems, membership software and websites.</p>
-      </div>
-      <ol class="wk-list">
-        <li>
-          <a class="wk-row" href="https://krish2147.github.io/Baroda-swimming-front/" target="_blank" rel="noopener">
-            <span class="wk-row-num">05</span>
-            <span class="wk-row-name">Baroda Swim Front</span>
-            <span class="wk-row-type">Registration, payments, renewals, event updates and membership management for a swimming club.</span>
-            <span class="wk-row-go" aria-hidden="true">↗</span>
-          </a>
-        </li>
-        <li>
-          <div class="wk-row">
-            <span class="wk-row-num">06</span>
-            <span class="wk-row-name">SAMS / UMS</span>
-            <span class="wk-row-type">Registration, approval, payment, activation, expiry tracking and renewals in one connected system.</span>
-            <span class="wk-row-go is-muted">In progress</span>
-          </div>
-        </li>
-        <li>
-          <a class="wk-row" href="https://turned-18.onrender.com/" target="_blank" rel="noopener">
-            <span class="wk-row-num">07</span>
-            <span class="wk-row-name">Turned 18</span>
-            <span class="wk-row-type">Helps young Indians find the government services they become eligible for at 18.</span>
-            <span class="wk-row-go" aria-hidden="true">↗</span>
-          </a>
-        </li>
-        <li>
-          <a class="wk-row" href="https://sanjay-kumar-swim.vercel.app/" target="_blank" rel="noopener">
-            <span class="wk-row-num">08</span>
-            <span class="wk-row-name">Coach Portfolio</span>
-            <span class="wk-row-type">Personal brand site for a swimming coach.</span>
-            <span class="wk-row-go" aria-hidden="true">↗</span>
-          </a>
-        </li>
-        <li>
-          <div class="wk-row">
-            <span class="wk-row-num">09</span>
-            <span class="wk-row-name">AI Capability Report</span>
-            <span class="wk-row-type">A two-page data visualisation report.</span>
-            <span class="wk-row-go is-muted">Report</span>
-          </div>
-        </li>
-      </ol>
+      <div class="wk-shelf-dots" aria-hidden="true"></div>
     </div>
 
     <!-- Closing statement -->
@@ -1931,6 +1843,78 @@ window.addEventListener('scroll', () => {
       if(!lean) lean = requestAnimationFrame(ease);
     });
   }
+})();
+
+/* ── PROJECT POSTER CAROUSEL ───────────────────────────────── */
+(function(){
+  const shelf = document.querySelector('#what-i-build .wk-shelf');
+  if(!shelf) return;
+  const stage = shelf.querySelector('.wk-shelf-stage');
+  const cards = [...stage.querySelectorAll('.wk-poster')];
+  const desc  = shelf.querySelector('.wk-shelf-desc');
+  const dots  = shelf.querySelector('.wk-shelf-dots');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N = cards.length;
+  let active = 0, prevD = cards.map(() => 0);
+  cards.forEach(() => dots.appendChild(document.createElement('i')));
+
+  const rel = i => { let d = i - active; if(d > N / 2) d -= N; if(d < -N / 2) d += N; return d; };
+
+  function render(){
+    const g = shelf.querySelector('.wk-poster').offsetWidth * (innerWidth <= 640 ? 0.68 : 0.62);
+    cards.forEach((c, i) => {
+      const d = rel(i), a = Math.abs(d);
+      const jump = Math.abs(d - prevD[i]) > 2;     // wrapping round the loop: move it while hidden
+      c.style.transition = jump || reduce ? 'none' : '';
+      const scale = a === 0 ? 1 : Math.max(.62, 1 - a * .14);
+      const x = Math.sign(d) * (a === 0 ? 0 : g * (1 + (a - 1) * .78));
+      c.style.transform = `translate3d(${x.toFixed(1)}px,0,0) scale(${scale})`;
+      c.style.opacity = a > 3 ? 0 : a === 3 ? .55 : 1;
+      c.style.filter = a === 0 ? 'none' : `brightness(${(1 - a * .2).toFixed(2)}) saturate(.7)`;
+      c.style.zIndex = 10 - a;
+      c.style.visibility = a > 3 ? 'hidden' : 'visible';
+      c.classList.toggle('is-active', a === 0);
+      c.tabIndex = a === 0 ? 0 : -1;
+      c.setAttribute('aria-hidden', a === 0 ? 'false' : 'true');
+      prevD[i] = d;
+    });
+    const cur = cards[active];
+    shelf.style.setProperty('--glow', cur.style.getPropertyValue('--c'));
+    desc.style.opacity = 0;
+    setTimeout(() => { desc.textContent = cur.dataset.desc; desc.style.opacity = 1; }, reduce ? 0 : 200);
+    [...dots.children].forEach((d, i) => d.classList.toggle('on', i === active));
+  }
+  const go = n => { active = (n + N) % N; render(); };
+
+  // Auto-advance like the reference, paused while someone is interacting or it is off screen
+  let timer = 0, visible = false, hold = false;
+  const tick = () => { clearInterval(timer); if(!reduce && visible && !hold) timer = setInterval(() => go(active + 1), 2800); };
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; tick(); }, { threshold: .35 }).observe(stage);
+  shelf.addEventListener('pointerenter', e => { if(e.pointerType === 'mouse'){ hold = true; tick(); } });
+  shelf.addEventListener('pointerleave', e => { if(e.pointerType === 'mouse'){ hold = false; tick(); } });
+  shelf.addEventListener('focusin', () => { hold = true; tick(); });
+  shelf.addEventListener('focusout', () => { hold = false; tick(); });
+
+  shelf.querySelectorAll('.wk-shelf-btn').forEach(b => b.addEventListener('click', () => { go(active + +b.dataset.dir); tick(); }));
+  shelf.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight'){ go(active + 1); cards[active].focus({preventScroll:true}); e.preventDefault(); }
+    if(e.key === 'ArrowLeft'){ go(active - 1); cards[active].focus({preventScroll:true}); e.preventDefault(); }
+  });
+
+  // Swipe / drag to browse; a drag never counts as a click
+  let sx = 0, sy = 0, dragging = false, moved = false;
+  stage.addEventListener('pointerdown', e => { sx = e.clientX; sy = e.clientY; dragging = true; moved = false; });
+  stage.addEventListener('pointermove', e => { if(dragging && Math.abs(e.clientX - sx) > 8 && Math.abs(e.clientX - sx) > Math.abs(e.clientY - sy)) moved = true; });
+  stage.addEventListener('pointerup', e => {
+    if(!dragging) return; dragging = false;
+    const dx = e.clientX - sx;
+    if(moved && Math.abs(dx) > 40){ go(active + (dx < 0 ? 1 : -1)); tick(); }
+  });
+  stage.addEventListener('pointercancel', () => dragging = false);
+  stage.addEventListener('click', e => { if(moved){ e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+
+  addEventListener('resize', render);
+  render();
 })();
 
 /* ── SELECTED WORK ──────────────────────────────────────── */
